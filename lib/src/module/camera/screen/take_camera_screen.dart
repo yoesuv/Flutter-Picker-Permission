@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TakeCameraScreen extends StatefulWidget {
+  static const routeName = 'take_camera';
   const TakeCameraScreen({Key? key}) : super(key: key);
 
   @override

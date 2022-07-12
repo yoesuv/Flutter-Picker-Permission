@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TakeGalleryScreen extends StatefulWidget {
+  static const routeName = 'take_gallery';
   const TakeGalleryScreen({Key? key}) : super(key: key);
 
   @override

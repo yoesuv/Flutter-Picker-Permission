@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_picker/src/module/home/screen/home_screen.dart';
+import 'package:flutter_picker/src/core/routes/app_route.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: const HomeScreen(),
+      onGenerateRoute: AppRoute.routes,
     );
   }
 }

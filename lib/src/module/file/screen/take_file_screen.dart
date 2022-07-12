@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TakeFileScreen extends StatefulWidget {
+  static const routeName = 'take_file';
   const TakeFileScreen({Key? key}) : super(key: key);
 
   @override
