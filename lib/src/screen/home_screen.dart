@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_picker/src/widgets/my_button.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -7,30 +8,15 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('File Picker'),
+        title: const Text('Flutter Picker'),
       ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            MaterialButton(
-              minWidth: 200,
-              onPressed: () {},
-              child: Text(
-                'CHOOSE FILE',
-                style: TextStyle(color: Colors.white),
-              ),
-              color: Colors.deepPurple,
-            ),
-            MaterialButton(
-              minWidth: 200,
-              onPressed: () {},
-              child: Text(
-                'TAKE PHOTO',
-                style: TextStyle(color: Colors.white),
-              ),
-              color: Colors.deepPurple,
-            ),
+            MyButton(title: 'GALLERY', onPressed: () {}),
+            MyButton(title: 'CAMERA', onPressed: () {}),
+            MyButton(title: 'FILE', onPressed: () {}),
           ],
         ),
       ),
