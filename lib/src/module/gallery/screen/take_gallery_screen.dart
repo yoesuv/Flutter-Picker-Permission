@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_picker/src/module/gallery/bloc/take_gallery_bloc.dart';
 
 class TakeGalleryScreen extends StatefulWidget {
   static const routeName = 'take_gallery';
@@ -11,6 +13,14 @@ class TakeGalleryScreen extends StatefulWidget {
 }
 
 class _TakeGalleryScreenState extends State<TakeGalleryScreen> {
+  late TakeGalleryBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = context.read<TakeGalleryBloc>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

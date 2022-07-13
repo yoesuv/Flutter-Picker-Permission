@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   image_picker: ^0.8.5+3
   permission_handler: ^10.0.0
+  flutter_bloc: ^8.0.1
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:
