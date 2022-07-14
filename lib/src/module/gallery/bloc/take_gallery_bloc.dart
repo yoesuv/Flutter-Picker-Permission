@@ -20,10 +20,12 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
       final status = await Permission.storage.status;
       if (status == PermissionStatus.granted) {
         final pickedImage = await _pickFromGallery();
-        emit(state.copyWith(
-          file: File(pickedImage!.path),
-          path: pickedImage.path,
-        ));
+        if (pickedImage != null) {
+          emit(state.copyWith(
+            file: File(pickedImage.path),
+            path: pickedImage.path,
+          ));
+        }
       } else {
         final request = await Permission.storage.request();
         if (request == PermissionStatus.granted) {
