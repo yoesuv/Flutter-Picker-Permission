@@ -55,7 +55,12 @@ class _TakeCameraScreenState extends State<TakeCameraScreen> {
         return SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 200,
-          child: Container(),
+          child: state.file != null
+              ? Image.file(
+                  state.file!,
+                  fit: BoxFit.cover,
+                )
+              : Container(),
         );
       },
     );

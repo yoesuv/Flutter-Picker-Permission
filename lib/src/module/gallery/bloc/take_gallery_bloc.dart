@@ -30,12 +30,15 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
         final request = await Permission.storage.request();
         if (request == PermissionStatus.granted) {
           final pickedImage = await _pickFromGallery();
-          emit(state.copyWith(
-            file: File(pickedImage!.path),
-            path: pickedImage.path,
-          ));
+          if (pickedImage != null) {
+            emit(state.copyWith(
+              file: File(pickedImage.path),
+              path: pickedImage.path,
+            ));
+          }
         } else {
-          debugPrint('TakeGalleryBloc # android request permission status DENIED');
+          debugPrint(
+              'TakeGalleryBloc # android request permission status DENIED');
         }
       }
     }
@@ -44,5 +47,4 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
   Future<XFile?> _pickFromGallery() async {
     return await ImagePicker().pickImage(source: ImageSource.gallery);
   }
-
 }
