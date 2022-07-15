@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class TakeFileState extends Equatable {
   final String? path;
 
-  const TakeFileState({this.path});
+  const TakeFileState({this.path = ''});
 
   TakeFileState copyWith({
     String? path,
