@@ -5,3 +5,4 @@
 - [Equatable](https://pub.dev/packages/equatable)
 - [Image Picker](https://pub.dev/packages/image_picker)
 - [Permission Handler](https://pub.dev/packages/permission_handler)
+- [File Picker](https://pub.dev/packages/file_picker)
