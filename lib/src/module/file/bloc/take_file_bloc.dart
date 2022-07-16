@@ -1,5 +1,4 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/file/event/take_file_event.dart';
 import 'package:flutter_picker/src/module/file/state/take_file_state.dart';
@@ -32,7 +31,8 @@ class TakeFileBloc extends Bloc<TakeFileEvent, TakeFileState> {
           ));
         }
       } else {
-        debugPrint('TakeGalleryBloc # request permission status DENIED');
+        emit(state.copyWith(permissionStatus: null));
+        emit(state.copyWith(permissionStatus: request));
       }
     }
   }
