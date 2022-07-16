@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/gallery/event/take_gallery_event.dart';
 import 'package:flutter_picker/src/module/gallery/state/take_gallery_state.dart';
@@ -37,8 +36,8 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
             ));
           }
         } else {
-          debugPrint(
-              'TakeGalleryBloc # android request permission status DENIED');
+          emit(state.copyWith(permissionStatus: null));
+          emit(state.copyWith(permissionStatus: request));
         }
       }
     }
