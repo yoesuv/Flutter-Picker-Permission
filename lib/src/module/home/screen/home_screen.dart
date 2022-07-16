@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Picker'),
+        title: const Text('Flutter Picker & Permission'),
       ),
       body: Center(
         child: Column(
