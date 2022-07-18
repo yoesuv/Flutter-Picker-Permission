@@ -15,9 +15,22 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
     TakeGalleryOpenEvent event,
     Emitter<TakeGalleryState> emit,
   ) async {
-    if (Platform.isAndroid) {
-      final status = await Permission.storage.status;
-      if (status == PermissionStatus.granted) {
+    late Permission permission = Permission.storage;
+    if (Platform.isIOS) {
+      permission = Permission.photos;
+    }
+    final status = await permission.status;
+    if (status == PermissionStatus.granted) {
+      final pickedImage = await _pickFromGallery();
+      if (pickedImage != null) {
+        emit(state.copyWith(
+          file: File(pickedImage.path),
+          path: pickedImage.path,
+        ));
+      }
+    } else {
+      final request = await permission.request();
+      if (request == PermissionStatus.granted) {
         final pickedImage = await _pickFromGallery();
         if (pickedImage != null) {
           emit(state.copyWith(
@@ -26,19 +39,8 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
           ));
         }
       } else {
-        final request = await Permission.storage.request();
-        if (request == PermissionStatus.granted) {
-          final pickedImage = await _pickFromGallery();
-          if (pickedImage != null) {
-            emit(state.copyWith(
-              file: File(pickedImage.path),
-              path: pickedImage.path,
-            ));
-          }
-        } else {
-          emit(state.copyWith(permissionStatus: null));
-          emit(state.copyWith(permissionStatus: request));
-        }
+        emit(state.copyWith(permissionStatus: null));
+        emit(state.copyWith(permissionStatus: request));
       }
     }
   }
