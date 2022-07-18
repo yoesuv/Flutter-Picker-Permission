@@ -1,7 +1,14 @@
 ## Flutter Picker & Permission ##
 
 Sample flutter app to handle permission and various picker.  
-download apk file [here](https://www.dropbox.com/s/mob3z6j5crveiuf)
+download apk file [here](https://www.dropbox.com/s/mob3z6j5crveiuf)  
+
+```
+Flutter 3.0.5 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision f1875d570e (5 days ago) • 2022-07-13 11:24:16 -0700
+Engine • revision e85ea0e79c
+Tools • Dart 2.17.6 • DevTools 2.12.2
+```
 
 #### Screenshot Android ####
 | Home | Gallery | Camera | Files |
