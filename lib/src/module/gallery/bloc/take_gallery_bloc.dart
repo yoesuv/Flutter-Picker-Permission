@@ -15,8 +15,10 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
     TakeGalleryOpenEvent event,
     Emitter<TakeGalleryState> emit,
   ) async {
-    late Permission permission = Permission.storage;
-    if (Platform.isIOS) {
+    late Permission permission;
+    if (Platform.isAndroid) {
+      permission = Permission.storage;
+    } else {
       permission = Permission.photos;
     }
     final status = await permission.status;
