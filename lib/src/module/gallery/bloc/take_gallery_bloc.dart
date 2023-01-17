@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/gallery/event/take_gallery_event.dart';
 import 'package:flutter_picker/src/module/gallery/state/take_gallery_state.dart';
@@ -17,10 +19,19 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
   ) async {
     late Permission permission;
     if (Platform.isAndroid) {
-      permission = Permission.storage;
+      final deviceInfo = DeviceInfoPlugin();
+      final androidInfo = await deviceInfo.androidInfo;
+      final sdkInt = androidInfo.version.sdkInt;
+      debugPrint('Take Gallery Bloc # android sdk int $sdkInt');
+      if (sdkInt >= 33) {
+        permission = Permission.photos;
+      } else {
+        permission = Permission.storage;
+      }
     } else {
       permission = Permission.photos;
     }
+    debugPrint('Take Gallery Bloc # permission $permission');
     final status = await permission.status;
     if (status == PermissionStatus.granted) {
       final pickedImage = await _pickFromGallery();
