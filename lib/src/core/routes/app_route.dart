@@ -7,6 +7,7 @@ import 'package:flutter_picker/src/module/file/screen/take_file_screen.dart';
 import 'package:flutter_picker/src/module/gallery/bloc/take_gallery_bloc.dart';
 import 'package:flutter_picker/src/module/gallery/screen/take_gallery_screen.dart';
 import 'package:flutter_picker/src/module/home/screen/home_screen.dart';
+import 'package:flutter_picker/src/module/location/screen/location_screen.dart';
 
 class AppRoute {
   static Route<dynamic> routes(RouteSettings settings) {
@@ -41,6 +42,12 @@ class AppRoute {
             create: (context) => TakeFileBloc(),
             child: const TakeFileScreen(),
           );
+        },
+      );
+    } else if (settings.name == LocationScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) {
+          return LocationScreen();
         },
       );
     } else {
