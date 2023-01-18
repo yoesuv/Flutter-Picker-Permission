@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/location/bloc/location_bloc.dart';
+import 'package:flutter_picker/src/module/location/event/location_event.dart';
+import 'package:flutter_picker/src/module/location/state/location_state.dart';
+import 'package:flutter_picker/src/utils/app_util.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LocationScreen extends StatefulWidget {
   static const routeName = 'get_location';
@@ -12,13 +16,11 @@ class LocationScreen extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _LocationScreenState();
   }
-
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-
   late LocationBloc _bloc;
-  
+
   @override
   void initState() {
     super.initState();
@@ -27,32 +29,68 @@ class _LocationScreenState extends State<LocationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Location'),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('7.538292, 114.9857694'),
-              SizedBox(height: 16),
-              _buildButton(),
-            ],
+    return BlocListener<LocationBloc, LocationState>(
+      bloc: _bloc,
+      listener: (context, state) {
+        if (state.permissionStatus != null) {
+          if (state.permissionStatus != PermissionStatus.granted) {
+            showErrorSnackBar(
+              context,
+              'Permission ${state.permissionStatus?.name}',
+            );
+          }
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Location'),
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildTextLocation(),
+                const SizedBox(height: 16),
+                _buildButton(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
+  Widget _buildTextLocation() {
+    return BlocBuilder<LocationBloc, LocationState>(
+      bloc: _bloc,
+      buildWhen: (previous, current) => previous.strLatLng != current.strLatLng,
+      builder: (context, state) {
+        return Text(
+          '${state.strLatLng}',
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildButton() {
-    return Center(
-      child: MyButton(
-        title: 'GET LOCATION',
-        onPressed: () {},
-      ),
+    return BlocBuilder<LocationBloc, LocationState>(
+      bloc: _bloc,
+      builder: (context, state) {
+        return Center(
+          child: MyButton(
+            title: 'GET LOCATION',
+            onPressed: () {
+              _bloc.add(GetLocationEvent());
+            },
+          ),
+        );
+      },
     );
   }
 }
