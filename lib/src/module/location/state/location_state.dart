@@ -7,7 +7,7 @@ class LocationState extends Equatable {
 
   const LocationState({
     this.permissionStatus,
-    this.strLatLng,
+    this.strLatLng = '',
   });
 
   LocationState copyWith({
