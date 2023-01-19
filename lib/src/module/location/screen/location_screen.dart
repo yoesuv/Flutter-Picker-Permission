@@ -40,6 +40,12 @@ class _LocationScreenState extends State<LocationScreen> {
             );
           }
         }
+        if (state.locationService == false) {
+          showErrorSnackBar(
+            context,
+            'Location Service is Disabled',
+          );
+        }
       },
       child: Scaffold(
         appBar: AppBar(
