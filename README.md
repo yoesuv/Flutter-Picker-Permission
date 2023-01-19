@@ -26,4 +26,5 @@ Tools • Dart 2.18.6 • DevTools 2.15.0
 - [Flutter Bloc](https://pub.dev/packages/flutter_bloc)
 - [File Picker](https://pub.dev/packages/file_picker)
 - [Image Picker](https://pub.dev/packages/image_picker)
+- [Location](https://pub.dev/packages/location)
 - [Permission Handler](https://pub.dev/packages/permission_handler)

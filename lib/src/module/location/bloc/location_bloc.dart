@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/location/event/location_event.dart';
 import 'package:flutter_picker/src/module/location/state/location_state.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:location/location.dart';
+import 'package:permission_handler/permission_handler.dart' as handler;
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
@@ -12,18 +13,32 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   void _onGetLocation(GetLocationEvent event, Emitter<LocationState> emit) async {
     debugPrint('Location Bloc # get user location');
-    const permission = Permission.location;
+    const permission = handler.Permission.location;
     final permissionStatus = await permission.request();
-    if (permissionStatus == PermissionStatus.granted) {
-
+    if (permissionStatus == handler.PermissionStatus.granted) {
+      await _getUserLocation(emit);
     } else {
       final request = await permission.request();
-      if (request == PermissionStatus.granted) {
-
+      if (request == handler.PermissionStatus.granted) {
+        await _getUserLocation(emit);
       } else {
         emit(state.copyWith(status: null));
         emit(state.copyWith(status: request));
       }
+    }
+  }
+
+  Future<void> _getUserLocation(Emitter<LocationState> emit) async {
+    final location = Location();
+    final checkService = await location.serviceEnabled();
+    if (checkService) {
+      final locationData = await location.getLocation();
+      final strLatLng = '${locationData.latitude}, ${locationData.longitude}';
+      emit(state.copyWith(
+        strLatLng: strLatLng,
+      ));
+    } else {
+
     }
   }
 
