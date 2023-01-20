@@ -33,23 +33,11 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
     debugPrint('Take Gallery Bloc # permission $permission');
     final status = await permission.status;
     if (status == PermissionStatus.granted) {
-      final pickedImage = await _pickFromGallery();
-      if (pickedImage != null) {
-        emit(state.copyWith(
-          file: File(pickedImage.path),
-          path: pickedImage.path,
-        ));
-      }
+      await _setSelectedImage(emit);
     } else {
       final request = await permission.request();
       if (request == PermissionStatus.granted) {
-        final pickedImage = await _pickFromGallery();
-        if (pickedImage != null) {
-          emit(state.copyWith(
-            file: File(pickedImage.path),
-            path: pickedImage.path,
-          ));
-        }
+        await _setSelectedImage(emit);
       } else {
         emit(state.copyWith(permissionStatus: null));
         emit(state.copyWith(permissionStatus: request));
@@ -61,10 +49,31 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
     TakeGalleryOpenIosEvent event,
     Emitter<TakeGalleryState> emit,
   ) async {
-    debugPrint('Take Gallery Bloc # gallery iOS');
+    const permission = Permission.photos;
+    final status = await permission.status;
+    if (status == PermissionStatus.granted) {
+      await _setSelectedImage(emit);
+    } else {
+      final request = await permission.request();
+      debugPrint('Take Gallery Bloc # request gallery result : $request');
+      if (request == PermissionStatus.granted) {
+        await _setSelectedImage(emit);
+      } else {
+        emit(state.copyWith(permissionStatus: null));
+        emit(state.copyWith(permissionStatus: request));
+      }
+    }
   }
 
-  Future<XFile?> _pickFromGallery() async {
-    return await ImagePicker().pickImage(source: ImageSource.gallery);
+  Future<void> _setSelectedImage(Emitter<TakeGalleryState> emit) async {
+    final pickedImage = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedImage != null) {
+      emit(state.copyWith(
+        file: File(pickedImage.path),
+        path: pickedImage.path,
+      ));
+    }
   }
 }
