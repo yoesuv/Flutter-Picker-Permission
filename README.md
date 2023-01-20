@@ -21,6 +21,7 @@ Tools • Dart 2.18.6 • DevTools 2.15.0
 | ![](https://images2.imgbox.com/fc/48/tH4BCi8D_o.png) | ![](https://images2.imgbox.com/3d/9b/xZF4zNNB_o.png) | ![](https://images2.imgbox.com/be/ea/ip1sIBHA_o.png) | ![](https://images2.imgbox.com/67/02/3pm9pd3K_o.png) |
 
 #### List Library ####
+- [App Settings](https://pub.dev/packages/app_settings)
 - [Device Info Plus](https://pub.dev/packages/device_info_plus)
 - [Equatable](https://pub.dev/packages/equatable)
 - [Flutter Bloc](https://pub.dev/packages/flutter_bloc)
