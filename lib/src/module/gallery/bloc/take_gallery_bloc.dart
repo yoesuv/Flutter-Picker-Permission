@@ -10,27 +10,26 @@ import 'package:permission_handler/permission_handler.dart';
 
 class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
   TakeGalleryBloc() : super(const TakeGalleryState()) {
-    on<TakeGalleryOpenEvent>(_openGallery);
+    on<TakeGalleryOpenAndroidEvent>(_openGalleryAndroid);
+    on<TakeGalleryOpenIosEvent>(_openGalleryIos);
   }
 
-  void _openGallery(
-    TakeGalleryOpenEvent event,
+  void _openGalleryAndroid(
+    TakeGalleryOpenAndroidEvent event,
     Emitter<TakeGalleryState> emit,
   ) async {
     late Permission permission;
-    if (Platform.isAndroid) {
-      final deviceInfo = DeviceInfoPlugin();
-      final androidInfo = await deviceInfo.androidInfo;
-      final sdkInt = androidInfo.version.sdkInt;
-      debugPrint('Take Gallery Bloc # android sdk int $sdkInt');
-      if (sdkInt >= 33) {
-        permission = Permission.photos;
-      } else {
-        permission = Permission.storage;
-      }
-    } else {
+    final deviceInfo = DeviceInfoPlugin();
+    final androidInfo = await deviceInfo.androidInfo;
+    final sdkInt = androidInfo.version.sdkInt;
+    debugPrint('Take Gallery Bloc # android sdk int $sdkInt');
+
+    if (sdkInt >= 33) {
       permission = Permission.photos;
+    } else {
+      permission = Permission.storage;
     }
+
     debugPrint('Take Gallery Bloc # permission $permission');
     final status = await permission.status;
     if (status == PermissionStatus.granted) {
@@ -56,6 +55,13 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
         emit(state.copyWith(permissionStatus: request));
       }
     }
+  }
+
+  void _openGalleryIos(
+    TakeGalleryOpenIosEvent event,
+    Emitter<TakeGalleryState> emit,
+  ) async {
+    debugPrint('Take Gallery Bloc # gallery iOS');
   }
 
   Future<XFile?> _pickFromGallery() async {

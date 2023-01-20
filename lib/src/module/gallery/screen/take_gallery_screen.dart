@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/gallery/bloc/take_gallery_bloc.dart';
@@ -94,7 +96,11 @@ class _TakeGalleryScreenState extends State<TakeGalleryScreen> {
       child: MyButton(
         title: 'OPEN GALLERY',
         onPressed: () {
-          _bloc.add(TakeGalleryOpenEvent());
+          if (Platform.isAndroid) {
+            _bloc.add(TakeGalleryOpenAndroidEvent());
+          } else {
+            _bloc.add(TakeGalleryOpenIosEvent());
+          }
         },
       ),
     );
