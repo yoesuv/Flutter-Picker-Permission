@@ -28,22 +28,25 @@ class _TakeCameraScreenState extends State<TakeCameraScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TakeCameraBloc, TakeCameraState>(
-      listener: (context, state) {
-        if (state.permissionStatus != null) {
-          if (state.permissionStatus != PermissionStatus.granted) {
-            showErrorSnackBar(
-              context,
-              'Permission ${state.permissionStatus?.name}',
-            );
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Take Camera'),
+      ),
+      body: BlocListener<TakeCameraBloc, TakeCameraState>(
+        bloc: _bloc,
+        listenWhen: (previous, current) =>
+            previous.permissionStatus != current.permissionStatus,
+        listener: (context, state) {
+          if (state.permissionStatus != null) {
+            if (state.permissionStatus != PermissionStatus.granted) {
+              showErrorSnackBar(
+                context,
+                'Permission ${state.permissionStatus?.name}',
+              );
+            }
           }
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Take Camera'),
-        ),
-        body: SafeArea(
+        },
+        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
