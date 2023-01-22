@@ -4,6 +4,7 @@ import 'package:flutter_picker/src/module/location/bloc/location_bloc.dart';
 import 'package:flutter_picker/src/module/location/event/location_event.dart';
 import 'package:flutter_picker/src/module/location/state/location_state.dart';
 import 'package:flutter_picker/src/utils/app_util.dart';
+import 'package:flutter_picker/src/widgets/dialog_open_app_settings.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -29,29 +30,35 @@ class _LocationScreenState extends State<LocationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LocationBloc, LocationState>(
-      bloc: _bloc,
-      listener: (context, state) {
-        if (state.permissionStatus != null) {
-          if (state.permissionStatus != PermissionStatus.granted) {
-            showErrorSnackBar(
-              context,
-              'Permission ${state.permissionStatus?.name}',
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Location'),
+      ),
+      body: BlocListener<LocationBloc, LocationState>(
+        bloc: _bloc,
+        listener: (context, state) {
+          if (state.permissionStatus != null) {
+            if (state.permissionStatus != PermissionStatus.granted) {
+              showErrorSnackBar(
+                context,
+                'Permission ${state.permissionStatus?.name}',
+              );
+            }
+            showDialog(
+              context: context,
+              builder: (context) {
+                return const DialogOpenAppSettings();
+              },
             );
           }
-        }
-        if (state.locationService == false) {
-          showErrorSnackBar(
-            context,
-            'Location Service is Disabled',
-          );
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Location'),
-        ),
-        body: SafeArea(
+          if (state.locationService == false) {
+            showErrorSnackBar(
+              context,
+              'Location Service is Disabled',
+            );
+          }
+        },
+        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
