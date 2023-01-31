@@ -67,6 +67,7 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
 
   Future<void> _setSelectedImage(Emitter<TakeGalleryState> emit) async {
     final pickedImage = await ImagePicker().pickImage(
+      requestFullMetadata: false,
       source: ImageSource.gallery,
     );
     if (pickedImage != null) {
