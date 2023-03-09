@@ -24,7 +24,18 @@ class TakeFileBloc extends Bloc<TakeFileEvent, TakeFileState> {
     if (sdkInt >= 33) {
 
     } else {
-
+      final status = await Permission.storage.status;
+      if (status == PermissionStatus.granted) {
+        await _pickFile(emit);
+      } else {
+        final request = await Permission.storage.request();
+        if (request == PermissionStatus.granted) {
+          await _pickFile(emit);
+        } else {
+          emit(state.copyWith(permissionStatus: null));
+          emit(state.copyWith(permissionStatus: request));
+        }
+      }
     }
   }
 
@@ -34,21 +45,11 @@ class TakeFileBloc extends Bloc<TakeFileEvent, TakeFileState> {
   ) async {
     final status = await Permission.storage.status;
     if (status == PermissionStatus.granted) {
-      final pickedFile = await _pickFiles();
-      if (pickedFile != null) {
-        emit(state.copyWith(
-          path: pickedFile.files.first.path,
-        ));
-      }
+      await _pickFile(emit);
     } else {
       final request = await Permission.storage.request();
       if (request == PermissionStatus.granted) {
-        final pickedFile = await _pickFiles();
-        if (pickedFile != null) {
-          emit(state.copyWith(
-            path: pickedFile.files.first.path,
-          ));
-        }
+        await _pickFile(emit);
       } else {
         emit(state.copyWith(permissionStatus: null));
         emit(state.copyWith(permissionStatus: request));
@@ -56,7 +57,13 @@ class TakeFileBloc extends Bloc<TakeFileEvent, TakeFileState> {
     }
   }
 
-  Future<FilePickerResult?> _pickFiles() async {
-    return await FilePicker.platform.pickFiles(type: FileType.any);
+  Future<void> _pickFile(Emitter<TakeFileState> emit) async {
+    final pickedFile = await FilePicker.platform.pickFiles(type: FileType.any);
+    if (pickedFile != null) {
+      emit(state.copyWith(
+        path: pickedFile.files.first.path,
+      ));
+    }
   }
+
 }
