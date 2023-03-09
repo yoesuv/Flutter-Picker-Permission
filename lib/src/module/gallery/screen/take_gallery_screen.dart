@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/gallery/bloc/take_gallery_bloc.dart';
 import 'package:flutter_picker/src/module/gallery/event/take_gallery_event.dart';
 import 'package:flutter_picker/src/module/gallery/state/take_gallery_state.dart';
 import 'package:flutter_picker/src/utils/app_util.dart';
+import 'package:flutter_picker/src/widgets/dialog_open_app_settings.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -28,22 +31,28 @@ class _TakeGalleryScreenState extends State<TakeGalleryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TakeGalleryBloc, TakeGalleryState>(
-      listener: (context, state) {
-        if (state.permissionStatus != null) {
-          if (state.permissionStatus != PermissionStatus.granted) {
-            showErrorSnackBar(
-              context,
-              'Permission ${state.permissionStatus?.name}',
-            );
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Take Gallery'),
+      ),
+      body: BlocListener<TakeGalleryBloc, TakeGalleryState>(
+        listener: (context, state) {
+          if (state.permissionStatus != null) {
+            if (state.permissionStatus != PermissionStatus.granted) {
+              showErrorSnackBar(
+                context,
+                'Permission ${state.permissionStatus?.name}',
+              );
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return const DialogOpenAppSettings();
+                },
+              );
+            }
           }
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Take Gallery'),
-        ),
-        body: SafeArea(
+        },
+        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -94,7 +103,11 @@ class _TakeGalleryScreenState extends State<TakeGalleryScreen> {
       child: MyButton(
         title: 'OPEN GALLERY',
         onPressed: () {
-          _bloc.add(TakeGalleryOpenEvent());
+          if (Platform.isAndroid) {
+            _bloc.add(TakeGalleryOpenAndroidEvent());
+          } else {
+            _bloc.add(TakeGalleryOpenIosEvent());
+          }
         },
       ),
     );

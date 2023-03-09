@@ -1,28 +1,26 @@
 ## Flutter Picker & Permission ##
 
 Sample flutter app to handle permission and various picker.  
-download apk file [here](https://www.dropbox.com/s/mob3z6j5crveiuf)  
+download apk file [here](https://www.dropbox.com/s/n0p9mgure6bl1qq)  
 
 ```
-Flutter 3.0.5 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision f1875d570e (5 days ago) • 2022-07-13 11:24:16 -0700
-Engine • revision e85ea0e79c
-Tools • Dart 2.17.6 • DevTools 2.12.2
+Flutter 3.7.7 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision 2ad6cd72c0 (13 hours ago) • 2023-03-08 09:41:59 -0800
+Engine • revision 1837b5be5f
+Tools • Dart 2.19.4 • DevTools 2.20.1
 ```
 
 #### Screenshot Android ####
-| Home | Gallery | Camera | Files |
-| :---: | :---: | :---: | :---: |
-| ![](https://images2.imgbox.com/53/f1/ovE4Ep0p_o.png) | ![](https://images2.imgbox.com/b2/23/rKeM94OY_o.png) | ![](https://images2.imgbox.com/9e/d0/sW19SFxo_o.png) | ![](https://images2.imgbox.com/41/22/e2iQW9mT_o.png) |
-
-#### Screenshot iOS ####
-| Home | Gallery | Camera | Files |
-| :---: | :---: | :---: | :---: |
-| ![](https://images2.imgbox.com/fc/48/tH4BCi8D_o.png) | ![](https://images2.imgbox.com/3d/9b/xZF4zNNB_o.png) | ![](https://images2.imgbox.com/be/ea/ip1sIBHA_o.png) | ![](https://images2.imgbox.com/67/02/3pm9pd3K_o.png) |
+| ![](https://i.imgur.com/SPOJCi2.png) | ![](https://i.imgur.com/eMlLJTW.png) | ![](https://images2.imgbox.com/51/6b/7A5aAWXx_o.png) | ![](https://i.imgur.com/i8qbRLt.png) |
+|:-----:|:-----:|:-----:|:-----:|
+| ![](https://images2.imgbox.com/08/e4/vRfkypHQ_o.png) | ![](https://i.imgur.com/kBX64w4.png) | ![](https://images2.imgbox.com/25/58/XhIyipux_o.png) | ![](https://images2.imgbox.com/83/fe/lamReEQj_o.png) |
 
 #### List Library ####
-- [Flutter Bloc](https://pub.dev/packages/flutter_bloc)
+- [App Settings](https://pub.dev/packages/app_settings)
+- [Device Info Plus](https://pub.dev/packages/device_info_plus)
 - [Equatable](https://pub.dev/packages/equatable)
-- [Image Picker](https://pub.dev/packages/image_picker)
-- [Permission Handler](https://pub.dev/packages/permission_handler)
+- [Flutter Bloc](https://pub.dev/packages/flutter_bloc)
 - [File Picker](https://pub.dev/packages/file_picker)
+- [Image Picker](https://pub.dev/packages/image_picker)
+- [Location](https://pub.dev/packages/location)
+- [Permission Handler](https://pub.dev/packages/permission_handler)

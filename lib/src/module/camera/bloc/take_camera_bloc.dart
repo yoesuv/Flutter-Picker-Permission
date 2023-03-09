@@ -17,23 +17,11 @@ class TakeCameraBloc extends Bloc<TakeCameraEvent, TakeCameraState> {
   ) async {
     final status = await Permission.camera.status;
     if (status == PermissionStatus.granted) {
-      final pickedImage = await _pickFromCamera();
-      if (pickedImage != null) {
-        emit(state.copyWith(
-          path: pickedImage.path,
-          file: File(pickedImage.path),
-        ));
-      }
+      await _pickFromCamera(emit);
     } else {
       final request = await Permission.camera.request();
       if (request == PermissionStatus.granted) {
-        final pickedImage = await _pickFromCamera();
-        if (pickedImage != null) {
-          emit(state.copyWith(
-            path: pickedImage.path,
-            file: File(pickedImage.path),
-          ));
-        }
+        await _pickFromCamera(emit);
       } else {
         emit(state.copyWith(permissionStatus: null));
         emit(state.copyWith(permissionStatus: request));
@@ -41,7 +29,15 @@ class TakeCameraBloc extends Bloc<TakeCameraEvent, TakeCameraState> {
     }
   }
 
-  Future<XFile?> _pickFromCamera() async {
-    return await ImagePicker().pickImage(source: ImageSource.camera);
+  Future<void> _pickFromCamera(Emitter<TakeCameraState> emit) async {
+    const camera = ImageSource.camera;
+    final pickedImage = await ImagePicker().pickImage(source: camera);
+    if (pickedImage != null) {
+      emit(state.copyWith(
+        path: pickedImage.path,
+        file: File(pickedImage.path),
+      ));
+    }
   }
+
 }

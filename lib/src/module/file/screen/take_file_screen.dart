@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/file/bloc/take_file_bloc.dart';
@@ -28,22 +30,25 @@ class _TakeFileScreenState extends State<TakeFileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TakeFileBloc, TakeFileState>(
-      listener: (context, state) {
-        if (state.permissionStatus != null) {
-          if (state.permissionStatus != PermissionStatus.granted) {
-            showErrorSnackBar(
-              context,
-              'Permission ${state.permissionStatus?.name}',
-            );
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Take File'),
+      ),
+      body: BlocListener<TakeFileBloc, TakeFileState>(
+        bloc: _bloc,
+        listenWhen: (previous, current) =>
+        previous.permissionStatus != current.permissionStatus,
+        listener: (context, state) {
+          if (state.permissionStatus != null) {
+            if (state.permissionStatus != PermissionStatus.granted) {
+              showErrorSnackBar(
+                context,
+                'Permission ${state.permissionStatus?.name}',
+              );
+            }
           }
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Take File'),
-        ),
-        body: SafeArea(
+        },
+        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -73,7 +78,11 @@ class _TakeFileScreenState extends State<TakeFileScreen> {
       child: MyButton(
         title: 'OPEN FILE',
         onPressed: () {
-          _bloc.add(TakeFileChooseEvent());
+          if (Platform.isAndroid) {
+            _bloc.add(TakeFileAndroidChooseEvent());
+          } else if (Platform.isIOS) {
+            _bloc.add(TakeFileIosChooseEvent());
+          }
         },
       ),
     );
