@@ -20,9 +20,8 @@ class TakeFileBloc extends Bloc<TakeFileEvent, TakeFileState> {
     final androidInfo = await deviceInfo.androidInfo;
     final sdkInt = androidInfo.version.sdkInt;
     debugPrint('TakeFileBloc # android sdk int $sdkInt');
-
     if (sdkInt >= 33) {
-
+      await _pickFile(emit);
     } else {
       final status = await Permission.storage.status;
       if (status == PermissionStatus.granted) {
