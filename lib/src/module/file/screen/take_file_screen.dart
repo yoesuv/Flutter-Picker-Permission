@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/file/bloc/take_file_bloc.dart';
@@ -76,7 +78,11 @@ class _TakeFileScreenState extends State<TakeFileScreen> {
       child: MyButton(
         title: 'OPEN FILE',
         onPressed: () {
-          _bloc.add(TakeFileChooseEvent());
+          if (Platform.isAndroid) {
+            _bloc.add(TakeFileAndroidChooseEvent());
+          } else if (Platform.isIOS) {
+            _bloc.add(TakeFileIosChooseEvent());
+          }
         },
       ),
     );
