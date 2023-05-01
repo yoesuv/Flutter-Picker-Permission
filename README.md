@@ -23,4 +23,6 @@ Tools • Dart 2.19.6 • DevTools 2.20.1
 - [File Picker](https://pub.dev/packages/file_picker)
 - [Image Picker](https://pub.dev/packages/image_picker)
 - [Location](https://pub.dev/packages/location)
+- [Path Provider](https://pub.dev/packages/path_provider)
 - [Permission Handler](https://pub.dev/packages/permission_handler)
+- [Record](https://pub.dev/packages/record)
