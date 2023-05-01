@@ -61,10 +61,20 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
   Widget _buildButton() {
     return Center(
       child: BlocBuilder<RecordAudioBloc, RecordAudioState>(
-          bloc: _bloc,
-          builder: (context, state) {
-            return MyButton(title: 'START', onPressed: () {});
-          }),
+        bloc: _bloc,
+        builder: (context, state) {
+          return MyButton(
+            title: state.isRecording ? 'STOP' : 'START',
+            onPressed: () {
+              if (state.isRecording) {
+                _bloc?.add(RecordAudioStopEvent());
+              } else {
+                _bloc?.add(RecordAudioStartEvent());
+              }
+            },
+          );
+        },
+      ),
     );
   }
 }

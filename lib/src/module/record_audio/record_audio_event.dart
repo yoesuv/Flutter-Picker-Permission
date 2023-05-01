@@ -6,3 +6,7 @@ abstract class RecordAudioEvent extends Equatable {
 }
 
 class RecordAudioInitEvent extends RecordAudioEvent {}
+
+class RecordAudioStartEvent extends RecordAudioEvent {}
+
+class RecordAudioStopEvent extends RecordAudioEvent {}
