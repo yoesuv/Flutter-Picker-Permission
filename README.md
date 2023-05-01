@@ -4,10 +4,10 @@ Sample flutter app to handle permission and various picker.
 download apk file [here](https://www.dropbox.com/s/n0p9mgure6bl1qq)  
 
 ```
-Flutter 3.7.7 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision 2ad6cd72c0 (13 hours ago) • 2023-03-08 09:41:59 -0800
-Engine • revision 1837b5be5f
-Tools • Dart 2.19.4 • DevTools 2.20.1
+Flutter 3.7.12 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision 4d9e56e694 (13 days ago) • 2023-04-17 21:47:46 -0400
+Engine • revision 1a65d409c7
+Tools • Dart 2.19.6 • DevTools 2.20.1
 ```
 
 #### Screenshot Android ####

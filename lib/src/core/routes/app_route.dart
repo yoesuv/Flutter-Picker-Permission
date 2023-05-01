@@ -9,6 +9,7 @@ import 'package:flutter_picker/src/module/gallery/screen/take_gallery_screen.dar
 import 'package:flutter_picker/src/module/home/screen/home_screen.dart';
 import 'package:flutter_picker/src/module/location/bloc/location_bloc.dart';
 import 'package:flutter_picker/src/module/location/screen/location_screen.dart';
+import 'package:flutter_picker/src/module/record_audio/record_audio_screen.dart';
 
 class AppRoute {
   static Route<dynamic> routes(RouteSettings settings) {
@@ -53,6 +54,10 @@ class AppRoute {
             child: const LocationScreen(),
           );
         },
+      );
+    } else if (settings.name == RecordAudioScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => RecordAudioScreen(),
       );
     } else {
       return MaterialPageRoute(
