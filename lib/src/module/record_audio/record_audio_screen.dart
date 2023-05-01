@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_bloc.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_event.dart';
+import 'package:flutter_picker/src/module/record_audio/record_audio_state.dart';
+import 'package:flutter_picker/src/widgets/my_button.dart';
 
 class RecordAudioScreen extends StatefulWidget {
   static const routeName = 'record_audio';
@@ -14,7 +16,6 @@ class RecordAudioScreen extends StatefulWidget {
 }
 
 class _RecordAudioScreenState extends State<RecordAudioScreen> {
-
   RecordAudioBloc? _bloc;
 
   @override
@@ -30,9 +31,40 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
       appBar: AppBar(
         title: const Text('Record Audio'),
       ),
-      body: Center(
-        child: Text('Record Audio'),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              _labelStatus(),
+              const SizedBox(height: 16),
+              _buildButton(),
+            ],
+          ),
+        ),
       ),
+    );
+  }
+
+  Widget _labelStatus() {
+    return BlocBuilder<RecordAudioBloc, RecordAudioState>(
+      bloc: _bloc,
+      builder: (context, state) => Text(
+        'Is Recording : ${state.isRecording}',
+        style: const TextStyle(
+          fontSize: 16,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButton() {
+    return Center(
+      child: BlocBuilder<RecordAudioBloc, RecordAudioState>(
+          bloc: _bloc,
+          builder: (context, state) {
+            return MyButton(title: 'START', onPressed: () {});
+          }),
     );
   }
 }
