@@ -10,3 +10,5 @@ class RecordAudioInitEvent extends RecordAudioEvent {}
 class RecordAudioStartEvent extends RecordAudioEvent {}
 
 class RecordAudioStopEvent extends RecordAudioEvent {}
+
+class RecordAudioPlayEvent extends RecordAudioEvent {}

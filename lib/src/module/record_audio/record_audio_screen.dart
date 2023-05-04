@@ -86,7 +86,23 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
       buildWhen: (prev, current) => prev.isReadyToPlay != current.isReadyToPlay,
       builder: (context, state) {
         if (state.isReadyToPlay) {
-          return Text('Play Recording');
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Play Record',
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  _bloc?.add(RecordAudioPlayEvent());
+                },
+                child: const Icon(Icons.play_arrow_rounded, size: 32),
+              ),
+            ],
+          );
         }
         return Container();
       },
