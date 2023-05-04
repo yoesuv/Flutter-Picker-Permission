@@ -7,16 +7,14 @@ class RecordAudioState extends Equatable {
   final PermissionStatus? permissionMicStatus;
   final bool isReadyToPlay;
   final String path;
-  final ProcessingState processingState;
-  final bool isPlaying;
+  final PlayerState? playerState;
 
   const RecordAudioState({
     this.isRecording = false,
     this.permissionMicStatus,
     this.isReadyToPlay = false,
     this.path = '',
-    this.processingState = ProcessingState.idle,
-    this.isPlaying = false,
+    this.playerState,
   });
 
   RecordAudioState copyWith({
@@ -24,16 +22,14 @@ class RecordAudioState extends Equatable {
     PermissionStatus? permissionMicStatus,
     bool? isReadyToPlay,
     String? path,
-    ProcessingState? processingState,
-    bool? isPlaying,
+    PlayerState? playerState,
   }) {
     return RecordAudioState(
       isRecording: isRecording ?? this.isRecording,
       permissionMicStatus: permissionMicStatus ?? this.permissionMicStatus,
       isReadyToPlay: isReadyToPlay ?? this.isReadyToPlay,
       path: path ?? this.path,
-      processingState: processingState ?? this.processingState,
-      isPlaying: isPlaying ?? this.isPlaying,
+      playerState: playerState ?? this.playerState,
     );
   }
 
@@ -43,7 +39,6 @@ class RecordAudioState extends Equatable {
         permissionMicStatus,
         isReadyToPlay,
         path,
-        processingState,
-        isPlaying,
+        playerState,
       ];
 }

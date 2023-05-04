@@ -4,6 +4,7 @@ import 'package:flutter_picker/src/module/record_audio/record_audio_bloc.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_event.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_state.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
+import 'package:just_audio/just_audio.dart';
 
 class RecordAudioScreen extends StatefulWidget {
   static const routeName = 'record_audio';
@@ -16,6 +17,7 @@ class RecordAudioScreen extends StatefulWidget {
 }
 
 class _RecordAudioScreenState extends State<RecordAudioScreen> {
+  final player = AudioPlayer();
   RecordAudioBloc? _bloc;
 
   @override
@@ -23,6 +25,9 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
     super.initState();
     _bloc = context.read<RecordAudioBloc>();
     _bloc?.add(RecordAudioInitEvent());
+    player.playerStateStream.listen((streamState) {
+      _bloc?.add(RecordAudioPlayerStateEvent(playerState: streamState));
+    });
   }
 
   @override
@@ -97,7 +102,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
               ),
               InkWell(
                 onTap: () {
-                  _bloc?.add(RecordAudioPlayEvent());
+                  _bloc?.add(RecordAudioPlayerPlayEvent(player: player));
                 },
                 child: const Icon(Icons.play_arrow_rounded, size: 32),
               ),

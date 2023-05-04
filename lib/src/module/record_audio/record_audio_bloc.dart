@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_event.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_state.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -12,12 +11,12 @@ import 'package:record/record.dart';
 
 class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
   final record = Record();
-  final player = AudioPlayer();
   RecordAudioBloc() : super(const RecordAudioState()) {
     on<RecordAudioInitEvent>(_onInit);
     on<RecordAudioStartEvent>(_onStart);
     on<RecordAudioStopEvent>(_onStop);
-    on<RecordAudioPlayEvent>(_onPlay);
+    on<RecordAudioPlayerPlayEvent>(_onPlayerPlay);
+    on<RecordAudioPlayerStateEvent>(_onPlayerState);
   }
 
   void _onInit(
@@ -84,16 +83,25 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     }
   }
 
-  void _onPlay(
-    RecordAudioPlayEvent event,
+  void _onPlayerPlay(
+    RecordAudioPlayerPlayEvent event,
     Emitter<RecordAudioState> emit,
   ) async {
     try {
-      await player.setFilePath(state.path);
-      await player.play();
+      await event.player?.setFilePath(state.path);
+      await event.player?.play();
     } catch (e) {
       debugPrint("RecordAudioBloc # ERROR play $e");
     }
+  }
+
+  void _onPlayerState(
+    RecordAudioPlayerStateEvent event,
+    Emitter<RecordAudioState> emit,
+  ) {
+    emit(state.copyWith(
+      playerState: event.playerState,
+    ));
   }
 
   Future<void> _startRecording(
