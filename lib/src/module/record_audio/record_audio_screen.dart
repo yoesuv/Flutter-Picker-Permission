@@ -39,6 +39,8 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
               _labelStatus(),
               const SizedBox(height: 16),
               _buildButton(),
+              const SizedBox(height: 16),
+              _buildPlayer(),
             ],
           ),
         ),
@@ -75,6 +77,19 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
           );
         },
       ),
+    );
+  }
+
+  Widget _buildPlayer() {
+    return BlocBuilder<RecordAudioBloc, RecordAudioState>(
+      bloc: _bloc,
+      buildWhen: (prev, current) => prev.isReadyToPlay != current.isReadyToPlay,
+      builder: (context, state) {
+        if (state.isReadyToPlay) {
+          return Text('Play Recording');
+        }
+        return Container();
+      },
     );
   }
 }

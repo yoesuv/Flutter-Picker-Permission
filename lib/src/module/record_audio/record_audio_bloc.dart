@@ -23,6 +23,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
   ) {
     emit(state.copyWith(
       isRecording: false,
+      isReadyToPlay: false,
     ));
   }
 
@@ -73,6 +74,9 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     if (isRecording) {
       final theFile = await record.stop();
       debugPrint('RecordAudioBloc # stop recording -> final $theFile');
+      emit(state.copyWith(
+        isReadyToPlay: true,
+      ));
     }
   }
 
@@ -81,6 +85,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
   ) async {
     emit(state.copyWith(
       isRecording: true,
+      isReadyToPlay: false,
     ));
     Directory dir = await getTemporaryDirectory();
     await record.start(
