@@ -14,6 +14,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
   RecordAudioBloc() : super(const RecordAudioState()) {
     on<RecordAudioInitEvent>(_onInit);
     on<RecordAudioStartEvent>(_onStart);
+    on<RecordAudioPauseEvent>(_onPause);
     on<RecordAudioStopEvent>(_onStop);
     on<RecordAudioPlayerPlayEvent>(_onPlayerPlay);
     on<RecordAudioPlayerStateEvent>(_onPlayerState);
@@ -65,6 +66,15 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     }
   }
 
+  void _onPause(
+    RecordAudioPauseEvent event,
+    Emitter<RecordAudioState> emit,
+  ) async {
+    emit(state.copyWith(
+      isPaused: true,
+    ));
+  }
+
   void _onStop(
     RecordAudioStopEvent event,
     Emitter<RecordAudioState> emit,
@@ -109,6 +119,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
   ) async {
     emit(state.copyWith(
       isRecording: true,
+      isPaused: false,
       isReadyToPlay: false,
       path: '',
     ));
