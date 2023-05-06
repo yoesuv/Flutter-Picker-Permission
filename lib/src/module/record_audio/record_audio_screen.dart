@@ -57,7 +57,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
     return BlocBuilder<RecordAudioBloc, RecordAudioState>(
       bloc: _bloc,
       builder: (context, state) => Text(
-        'Is Recording : ${state.isRecording}',
+        'Is Recording : ${state.recordingState.name}',
         style: const TextStyle(
           fontSize: 16,
         ),
@@ -70,15 +70,48 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
       child: BlocBuilder<RecordAudioBloc, RecordAudioState>(
         bloc: _bloc,
         builder: (context, state) {
-          return MyButton(
-            title: state.isRecording ? 'STOP' : 'START',
-            onPressed: () {
-              if (state.isRecording) {
-                _bloc?.add(RecordAudioStopEvent());
-              } else {
-                _bloc?.add(RecordAudioStartEvent());
-              }
-            },
+          return Column(
+            children: [
+              MyButton(
+                title: state.buttonTitle,
+                onPressed: () {
+                  if (state.recordingState == RecordingState.start) {
+                    _bloc?.add(
+                      RecordAudioStateEvent(
+                        recordingState: RecordingState.start,
+                      ),
+                    );
+                  } else if (state.recordingState == RecordingState.recording) {
+                    _bloc?.add(
+                      RecordAudioStateEvent(
+                        recordingState: RecordingState.pause,
+                      ),
+                    );
+                  } else if (state.recordingState == RecordingState.pause) {
+                    _bloc?.add(
+                      RecordAudioStateEvent(
+                        recordingState: RecordingState.resume,
+                      ),
+                    );
+                  } else if (state.recordingState == RecordingState.resume) {
+                    _bloc?.add(
+                      RecordAudioStateEvent(
+                        recordingState: RecordingState.resume,
+                      ),
+                    );
+                  }
+                },
+              ),
+              const SizedBox(height: 8),
+              MyButton(
+                title: 'STOP',
+                onPressed: () {
+                  _bloc?.add(
+                    RecordAudioStateEvent(recordingState: RecordingState.stop),
+                  );
+                },
+              ),
+            ],
           );
         },
       ),

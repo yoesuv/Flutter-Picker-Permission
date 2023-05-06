@@ -13,9 +13,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
   final record = Record();
   RecordAudioBloc() : super(const RecordAudioState()) {
     on<RecordAudioInitEvent>(_onInit);
-    on<RecordAudioStartEvent>(_onStart);
-    on<RecordAudioPauseEvent>(_onPause);
-    on<RecordAudioStopEvent>(_onStop);
+    on<RecordAudioStateEvent>(_onRecording);
     on<RecordAudioPlayerPlayEvent>(_onPlayerPlay);
     on<RecordAudioPlayerStateEvent>(_onPlayerState);
   }
@@ -25,71 +23,89 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     Emitter<RecordAudioState> emit,
   ) {
     emit(state.copyWith(
-      isRecording: false,
+      recordingState: RecordingState.start,
       isReadyToPlay: false,
+      buttonTitle: 'START',
     ));
   }
 
-  void _onStart(
-    RecordAudioStartEvent event,
+  void _onRecording(
+    RecordAudioStateEvent event,
     Emitter<RecordAudioState> emit,
   ) async {
-    if (Platform.isAndroid) {
-      // for android
-      final deviceInfo = DeviceInfoPlugin();
-      final androidInfo = await deviceInfo.androidInfo;
-      final sdkInt = androidInfo.version.sdkInt;
+    final recordingState = event.recordingState;
+    switch (recordingState) {
+      case RecordingState.start:
+        if (Platform.isAndroid) {
+          // for android
+          final deviceInfo = DeviceInfoPlugin();
+          final androidInfo = await deviceInfo.androidInfo;
+          final sdkInt = androidInfo.version.sdkInt;
 
-      if (sdkInt >= 33) {
-        final checkMicStatus = await Permission.microphone.status;
-        debugPrint('RecordAudioBloc # mic status $checkMicStatus');
-        emit(state.copyWith(
-          permissionMicStatus: checkMicStatus,
-        ));
-        if (checkMicStatus == PermissionStatus.granted) {
-          await _startRecording(emit);
-        } else {
-          final request = await Permission.microphone.request();
-          emit(state.copyWith(
-            permissionMicStatus: request,
-          ));
-          if (request == PermissionStatus.granted) {
-            await _startRecording(emit);
+          if (sdkInt >= 33) {
+            final checkMicStatus = await Permission.microphone.status;
+            debugPrint('RecordAudioBloc # mic status $checkMicStatus');
+            emit(state.copyWith(
+              permissionMicStatus: checkMicStatus,
+            ));
+            if (checkMicStatus == PermissionStatus.granted) {
+              await _startRecording(emit);
+            } else {
+              final request = await Permission.microphone.request();
+              emit(state.copyWith(
+                permissionMicStatus: request,
+              ));
+              if (request == PermissionStatus.granted) {
+                await _startRecording(emit);
+              }
+            }
           }
+        } else {
+          // for ios
+          emit(state.copyWith(
+            recordingState: RecordingState.stop,
+            isReadyToPlay: false,
+          ));
         }
-      }
-    } else {
-      // for ios
-      emit(state.copyWith(
-        isRecording: true,
-      ));
-    }
-  }
-
-  void _onPause(
-    RecordAudioPauseEvent event,
-    Emitter<RecordAudioState> emit,
-  ) async {
-    emit(state.copyWith(
-      isPaused: true,
-    ));
-  }
-
-  void _onStop(
-    RecordAudioStopEvent event,
-    Emitter<RecordAudioState> emit,
-  ) async {
-    emit(state.copyWith(
-      isRecording: false,
-    ));
-    bool isRecording = await record.isRecording();
-    if (isRecording) {
-      final theFile = await record.stop();
-      debugPrint('RecordAudioBloc # stop recording -> final $theFile');
-      emit(state.copyWith(
-        isReadyToPlay: true,
-        path: theFile,
-      ));
+        break;
+      case RecordingState.recording:
+        emit(state.copyWith(
+          buttonTitle: 'PAUSE'
+        ));
+        break;
+      case RecordingState.pause:
+        bool isRecording = await record.isRecording();
+        if (isRecording) {
+          await record.pause();
+          emit(state.copyWith(
+            recordingState: RecordingState.pause,
+            buttonTitle: 'RESUME',
+          ));
+        }
+        break;
+      case RecordingState.resume:
+        bool isRecording = await record.isRecording();
+        if (isRecording) {
+          await record.resume();
+          emit(state.copyWith(
+            recordingState: RecordingState.recording,
+            buttonTitle: 'PAUSE',
+          ));
+        }
+        break;
+      case RecordingState.stop:
+        bool isRecording = await record.isRecording();
+        if (isRecording) {
+          final theFile = await record.stop();
+          debugPrint('RecordAudioBloc # stop recording -> final $theFile');
+          emit(state.copyWith(
+            recordingState: RecordingState.start,
+            isReadyToPlay: true,
+            path: theFile,
+            buttonTitle: 'START',
+          ));
+        }
+        break;
     }
   }
 
@@ -118,10 +134,10 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     Emitter<RecordAudioState> emit,
   ) async {
     emit(state.copyWith(
-      isRecording: true,
-      isPaused: false,
+      recordingState: RecordingState.recording,
       isReadyToPlay: false,
       path: '',
+      buttonTitle: 'PAUSE'
     ));
     Directory dir = await getTemporaryDirectory();
     await record.start(
