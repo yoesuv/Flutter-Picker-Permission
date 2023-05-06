@@ -104,6 +104,16 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
             path: theFile,
             buttonTitle: 'START',
           ));
+          try {
+            await event.player?.setFilePath(state.path);
+            await event.player?.stop();
+            final duration = event.player?.duration;
+            emit(state.copyWith(
+              duration: duration,
+            ));
+          } catch (e) {
+            debugPrint("RecordAudioBloc # ERROR stop  $e");
+          }
         }
         break;
     }

@@ -17,6 +17,7 @@ class RecordAudioState extends Equatable {
   final String path;
   final PlayerState? playerState;
   final String buttonTitle;
+  final Duration? duration;
 
   const RecordAudioState({
     this.recordingState = RecordingState.start,
@@ -25,6 +26,7 @@ class RecordAudioState extends Equatable {
     this.path = '',
     this.playerState,
     this.buttonTitle = 'START',
+    this.duration,
   });
 
   RecordAudioState copyWith({
@@ -34,6 +36,7 @@ class RecordAudioState extends Equatable {
     String? path,
     PlayerState? playerState,
     String? buttonTitle,
+    Duration? duration,
   }) {
     return RecordAudioState(
       recordingState: recordingState ?? this.recordingState,
@@ -42,6 +45,7 @@ class RecordAudioState extends Equatable {
       path: path ?? this.path,
       playerState: playerState ?? this.playerState,
       buttonTitle: buttonTitle ?? this.buttonTitle,
+      duration: duration ?? this.duration,
     );
   }
 
@@ -53,5 +57,6 @@ class RecordAudioState extends Equatable {
         path,
         playerState,
         buttonTitle,
+        duration,
       ];
 }

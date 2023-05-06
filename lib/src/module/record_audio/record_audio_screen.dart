@@ -44,7 +44,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
               _labelStatus(),
               const SizedBox(height: 16),
               _buildButton(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 32),
               _buildPlayer(),
             ],
           ),
@@ -107,7 +107,10 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
                 title: 'STOP',
                 onPressed: () {
                   _bloc?.add(
-                    RecordAudioStateEvent(recordingState: RecordingState.stop),
+                    RecordAudioStateEvent(
+                      recordingState: RecordingState.stop,
+                      player: player,
+                    ),
                   );
                 },
               ),
@@ -121,15 +124,17 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
   Widget _buildPlayer() {
     return BlocBuilder<RecordAudioBloc, RecordAudioState>(
       bloc: _bloc,
-      buildWhen: (prev, current) => prev.isReadyToPlay != current.isReadyToPlay,
+      buildWhen: (prev, current) =>
+          prev.isReadyToPlay != current.isReadyToPlay ||
+          prev.duration != current.duration,
       builder: (context, state) {
         if (state.isReadyToPlay) {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Play Record',
-                style: TextStyle(
+              Text(
+                'Play Record ${state.duration}',
+                style: const TextStyle(
                   fontSize: 14,
                 ),
               ),
@@ -137,7 +142,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
                 onTap: () {
                   _bloc?.add(RecordAudioPlayerPlayEvent(player: player));
                 },
-                child: const Icon(Icons.play_arrow_rounded, size: 32),
+                child: const Icon(Icons.play_arrow_rounded, size: 48),
               ),
             ],
           );
