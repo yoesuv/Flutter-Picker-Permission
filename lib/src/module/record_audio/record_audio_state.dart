@@ -2,48 +2,56 @@ import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+enum RecordingState {
+  start,
+  recording,
+  pause,
+  resume,
+  stop,
+}
+
 class RecordAudioState extends Equatable {
-  final bool isRecording;
-  final bool isPaused;
+  final RecordingState recordingState;
   final PermissionStatus? permissionMicStatus;
   final bool isReadyToPlay;
   final String path;
   final PlayerState? playerState;
+  final String buttonTitle;
 
   const RecordAudioState({
-    this.isRecording = false,
-    this.isPaused = false,
+    this.recordingState = RecordingState.start,
     this.permissionMicStatus,
     this.isReadyToPlay = false,
     this.path = '',
     this.playerState,
+    this.buttonTitle = 'START',
   });
 
   RecordAudioState copyWith({
-    bool? isRecording,
-    bool? isPaused,
+    RecordingState? recordingState,
     PermissionStatus? permissionMicStatus,
     bool? isReadyToPlay,
     String? path,
     PlayerState? playerState,
+    String? buttonTitle,
   }) {
     return RecordAudioState(
-      isRecording: isRecording ?? this.isRecording,
-      isPaused: isPaused ?? this.isPaused,
+      recordingState: recordingState ?? this.recordingState,
       permissionMicStatus: permissionMicStatus ?? this.permissionMicStatus,
       isReadyToPlay: isReadyToPlay ?? this.isReadyToPlay,
       path: path ?? this.path,
       playerState: playerState ?? this.playerState,
+      buttonTitle: buttonTitle ?? this.buttonTitle,
     );
   }
 
   @override
   List<Object?> get props => [
-        isRecording,
-        isPaused,
+        recordingState,
         permissionMicStatus,
         isReadyToPlay,
         path,
         playerState,
+        buttonTitle,
       ];
 }
