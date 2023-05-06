@@ -59,6 +59,21 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
                 await _startRecording(emit);
               }
             }
+          } else {
+            debugPrint('RecordAudioBloc # request mic & write storage');
+            Map<Permission, PermissionStatus> statuses = await [
+              Permission.microphone,
+              Permission.storage,
+            ].request();
+            final checkMicStatus = statuses[Permission.microphone];
+            final checkStorageStatus = statuses[Permission.storage];
+            debugPrint('RecordAudioBloc # mic status $checkMicStatus');
+            debugPrint('RecordAudioBloc # storage status $checkStorageStatus');
+            if (checkMicStatus == PermissionStatus.granted) {
+              if (checkStorageStatus == PermissionStatus.granted) {
+                await _startRecording(emit);
+              }
+            }
           }
         } else {
           // for ios
