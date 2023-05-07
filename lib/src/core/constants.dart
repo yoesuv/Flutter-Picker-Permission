@@ -1,1 +1,0 @@
-const timerDuration = Duration(milliseconds: 10);

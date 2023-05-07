@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_picker/src/core/constants.dart';
+import 'package:flutter_picker/src/core/data/constants.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_event.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_state.dart';
 import 'package:path_provider/path_provider.dart';

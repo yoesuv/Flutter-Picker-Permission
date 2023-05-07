@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_picker/src/core/constants.dart';
+import 'package:flutter_picker/src/core/data/constants.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_bloc.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_event.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_state.dart';
@@ -66,6 +66,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
   @override
   void dispose() {
     super.dispose();
+    player.dispose();
     timer?.cancel();
   }
 
@@ -172,7 +173,9 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Play Record ${state.duration}',
+                'Play Record ${state.duration?.inMinutes ?? '00'}:'
+                '${state.duration?.inSeconds ?? 00}:'
+                '${state.duration?.inMilliseconds ?? 00}',
                 style: const TextStyle(
                   fontSize: 14,
                 ),
