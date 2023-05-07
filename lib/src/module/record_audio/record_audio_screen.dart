@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_picker/src/core/constants.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_bloc.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_event.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_state.dart';
@@ -30,7 +31,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
     player.playerStateStream.listen((streamState) {
       _bloc?.add(RecordAudioPlayerStateEvent(playerState: streamState));
     });
-    timer = PausableTimer(const Duration(seconds: 1), () {
+    timer = PausableTimer(timerDuration, () {
       _bloc?.add(RecordAudioTimerEvent());
       timer?.reset();
       timer?.start();
@@ -87,7 +88,9 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
       bloc: _bloc,
       buildWhen: (prev, current) => prev.startTime != current.startTime,
       builder: (context, state) => Text(
-        '${'${state.startTime?.minute ?? '00'}'.padLeft(2, '0')}:${'${state.startTime?.second ?? '00'}'.padLeft(2, '0')}',
+        '${'${state.startTime?.minute ?? '00'}'.padLeft(2, '0')}:'
+        '${'${state.startTime?.second ?? '00'}'.padLeft(2, '0')}:'
+        '${'${state.startTime?.millisecond ?? '00'}'.padLeft(2, '0').substring(0, 2)}',
         style: const TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
