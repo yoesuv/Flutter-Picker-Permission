@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_state.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:pausable_timer/pausable_timer.dart';
 
 abstract class RecordAudioEvent extends Equatable {
   @override
@@ -13,13 +14,18 @@ class RecordAudioStateEvent extends RecordAudioEvent {
   RecordAudioStateEvent({
     this.recordingState = RecordingState.start,
     this.player,
+    this.timer,
   });
+
   final RecordingState recordingState;
   final AudioPlayer? player;
+  final PausableTimer? timer;
+
   @override
   List<Object?> get props => [
         recordingState,
         player,
+        timer,
       ];
 }
 
@@ -36,3 +42,5 @@ class RecordAudioPlayerStateEvent extends RecordAudioEvent {
   @override
   List<Object?> get props => [playerState];
 }
+
+class RecordAudioTimerEvent extends RecordAudioEvent {}

@@ -5,6 +5,7 @@ import 'package:flutter_picker/src/module/record_audio/record_audio_event.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_state.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:pausable_timer/pausable_timer.dart';
 
 class RecordAudioScreen extends StatefulWidget {
   static const routeName = 'record_audio';
@@ -18,6 +19,7 @@ class RecordAudioScreen extends StatefulWidget {
 
 class _RecordAudioScreenState extends State<RecordAudioScreen> {
   final player = AudioPlayer();
+  PausableTimer? timer;
   RecordAudioBloc? _bloc;
 
   @override
@@ -27,6 +29,11 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
     _bloc?.add(RecordAudioInitEvent());
     player.playerStateStream.listen((streamState) {
       _bloc?.add(RecordAudioPlayerStateEvent(playerState: streamState));
+    });
+    timer = PausableTimer(const Duration(seconds: 1), () {
+      _bloc?.add(RecordAudioTimerEvent());
+      timer?.reset();
+      timer?.start();
     });
   }
 
@@ -43,6 +50,8 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
             children: [
               _labelStatus(),
               const SizedBox(height: 16),
+              _labelTimer(),
+              const SizedBox(height: 16),
               _buildButton(),
               const SizedBox(height: 32),
               _buildPlayer(),
@@ -53,13 +62,35 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
+  }
+
   Widget _labelStatus() {
     return BlocBuilder<RecordAudioBloc, RecordAudioState>(
       bloc: _bloc,
+      buildWhen: (prev, current) =>
+          prev.recordingState != current.recordingState,
       builder: (context, state) => Text(
         'Is Recording : ${state.recordingState.name}',
         style: const TextStyle(
           fontSize: 16,
+        ),
+      ),
+    );
+  }
+
+  Widget _labelTimer() {
+    return BlocBuilder<RecordAudioBloc, RecordAudioState>(
+      bloc: _bloc,
+      buildWhen: (prev, current) => prev.startTime != current.startTime,
+      builder: (context, state) => Text(
+        '${'${state.startTime?.minute ?? '00'}'.padLeft(2, '0')}:${'${state.startTime?.second ?? '00'}'.padLeft(2, '0')}',
+        style: const TextStyle(
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
@@ -79,24 +110,28 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
                     _bloc?.add(
                       RecordAudioStateEvent(
                         recordingState: RecordingState.start,
+                        timer: timer,
                       ),
                     );
                   } else if (state.recordingState == RecordingState.recording) {
                     _bloc?.add(
                       RecordAudioStateEvent(
                         recordingState: RecordingState.pause,
+                        timer: timer,
                       ),
                     );
                   } else if (state.recordingState == RecordingState.pause) {
                     _bloc?.add(
                       RecordAudioStateEvent(
                         recordingState: RecordingState.resume,
+                        timer: timer,
                       ),
                     );
                   } else if (state.recordingState == RecordingState.resume) {
                     _bloc?.add(
                       RecordAudioStateEvent(
                         recordingState: RecordingState.resume,
+                        timer: timer,
                       ),
                     );
                   }
@@ -110,6 +145,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
                     RecordAudioStateEvent(
                       recordingState: RecordingState.stop,
                       player: player,
+                      timer: timer,
                     ),
                   );
                 },

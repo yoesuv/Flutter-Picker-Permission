@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_event.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_state.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pausable_timer/pausable_timer.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:record/record.dart';
@@ -16,6 +17,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     on<RecordAudioStateEvent>(_onRecording);
     on<RecordAudioPlayerPlayEvent>(_onPlayerPlay);
     on<RecordAudioPlayerStateEvent>(_onPlayerState);
+    on<RecordAudioTimerEvent>(_onTimer);
   }
 
   void _onInit(
@@ -26,6 +28,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
       recordingState: RecordingState.start,
       isReadyToPlay: false,
       buttonTitle: 'START',
+      startTime: DateTime.utc(0),
     ));
   }
 
@@ -49,14 +52,14 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
               permissionMicStatus: checkMicStatus,
             ));
             if (checkMicStatus == PermissionStatus.granted) {
-              await _startRecording(emit);
+              await _startRecording(emit, event.timer);
             } else {
               final request = await Permission.microphone.request();
               emit(state.copyWith(
                 permissionMicStatus: request,
               ));
               if (request == PermissionStatus.granted) {
-                await _startRecording(emit);
+                await _startRecording(emit, event.timer);
               }
             }
           } else {
@@ -71,7 +74,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
             debugPrint('RecordAudioBloc # storage status $checkStorageStatus');
             if (checkMicStatus == PermissionStatus.granted) {
               if (checkStorageStatus == PermissionStatus.granted) {
-                await _startRecording(emit);
+                await _startRecording(emit, event.timer);
               }
             }
           }
@@ -84,11 +87,10 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
         }
         break;
       case RecordingState.recording:
-        emit(state.copyWith(
-          buttonTitle: 'PAUSE'
-        ));
+        emit(state.copyWith(buttonTitle: 'PAUSE'));
         break;
       case RecordingState.pause:
+        event.timer?.pause();
         bool isRecording = await record.isRecording();
         if (isRecording) {
           await record.pause();
@@ -99,6 +101,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
         }
         break;
       case RecordingState.resume:
+        event.timer?.start();
         bool isRecording = await record.isRecording();
         if (isRecording) {
           await record.resume();
@@ -109,6 +112,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
         }
         break;
       case RecordingState.stop:
+        event.timer?.pause();
         bool isRecording = await record.isRecording();
         if (isRecording) {
           final theFile = await record.stop();
@@ -155,15 +159,32 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     ));
   }
 
+  void _onTimer(
+    RecordAudioTimerEvent event,
+    Emitter<RecordAudioState> emit,
+  ) {
+    final time = state.startTime ?? DateTime.utc(0);
+    emit(state.copyWith(
+      startTime: time.add(const Duration(seconds: 1)),
+    ));
+  }
+
   Future<void> _startRecording(
     Emitter<RecordAudioState> emit,
+    PausableTimer? timer,
   ) async {
     emit(state.copyWith(
-      recordingState: RecordingState.recording,
-      isReadyToPlay: false,
-      path: '',
-      buttonTitle: 'PAUSE'
+      startTime: DateTime.utc(0),
     ));
+    timer?.start();
+    emit(
+      state.copyWith(
+        recordingState: RecordingState.recording,
+        isReadyToPlay: false,
+        path: '',
+        buttonTitle: 'PAUSE',
+      ),
+    );
     Directory dir = await getTemporaryDirectory();
     await record.start(
       path: '${dir.path}/file_recording.m4a',
