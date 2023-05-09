@@ -73,18 +73,26 @@ class _PlayerAudioState extends State<PlayerAudio> {
     return BlocBuilder<PlayerAudioBloc, PlayerAudioState>(
       bloc: _bloc,
       buildWhen: (prev, current) =>
-          prev.playerState != current.playerState || prev.path != current.path,
+          prev.playerState != current.playerState,
       builder: (context, state) {
         return InkWell(
           onTap: () async {
-            await _player.setFilePath(state.path ?? '');
-            await _player.play();
+            final playing = state.playerState?.playing ?? true;
+            final theState = state.playerState?.processingState;
+            if (!playing && theState == ProcessingState.idle) {
+              await _player.seek(Duration.zero);
+              await _player.play();
+            } else if (playing && theState == ProcessingState.ready) {
+              await _player.pause();
+            } else if (!playing && theState == ProcessingState.ready) {
+              await _player.play();
+            }
           },
           child: Icon(
             state.playerState?.playing == true
                 ? Icons.pause_rounded
                 : Icons.play_arrow_rounded,
-            size: 48,
+            size: 64,
           ),
         );
       },
