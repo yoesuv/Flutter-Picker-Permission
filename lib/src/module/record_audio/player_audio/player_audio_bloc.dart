@@ -12,11 +12,23 @@ class PlayerAudioBloc extends Bloc<PlayerAudioEvent, PlayerAudioState> {
   void _onInit(
     PlayerAudioInitEvent event,
     Emitter<PlayerAudioState> emit,
-  ) {
-    emit(state.copyWith(
-      path: event.path,
-      playerState: PlayerState(false, ProcessingState.idle),
-    ));
+  ) async {
+    try {
+      await event.player?.setFilePath(event.path ?? '');
+      await event.player?.stop();
+      final duration = event.player?.duration;
+      emit(state.copyWith(
+        path: event.path,
+        playerState: PlayerState(false, ProcessingState.idle),
+        strDuration: duration?.toString().substring(2,10),
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        path: event.path,
+        playerState: PlayerState(false, ProcessingState.idle),
+        strDuration: 'FAILED',
+      ));
+    }
   }
 
   void _onPlayerState(

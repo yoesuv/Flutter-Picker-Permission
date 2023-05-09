@@ -26,7 +26,7 @@ class _PlayerAudioState extends State<PlayerAudio> {
   @override
   void initState() {
     super.initState();
-    _bloc.add(PlayerAudioInitEvent(path: widget.path));
+    _bloc.add(PlayerAudioInitEvent(path: widget.path, player: _player));
     _player.playerStateStream.listen((PlayerState state) {
       if (state.processingState == ProcessingState.completed) {
         _player.stop();
@@ -59,7 +59,7 @@ class _PlayerAudioState extends State<PlayerAudio> {
       buildWhen: (prev, current) => prev.path != current.path,
       builder: (context, state) {
         return Text(
-          'Play Record 01:02:46 ${state.path}',
+          'Play Record ${state.strDuration}',
           style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
@@ -72,17 +72,13 @@ class _PlayerAudioState extends State<PlayerAudio> {
   Widget _playerControl() {
     return BlocBuilder<PlayerAudioBloc, PlayerAudioState>(
       bloc: _bloc,
-      buildWhen: (prev, current) => prev.playerState != current.playerState,
+      buildWhen: (prev, current) =>
+          prev.playerState != current.playerState || prev.path != current.path,
       builder: (context, state) {
-        debugPrint('PlayerAudio # player state ${state.playerState?.playing}');
         return InkWell(
           onTap: () async {
-            if (state.playerState?.playing == true) {
-              await _player.pause();
-            } else {
-              await _player.setFilePath(state.path ?? '');
-              await _player.play();
-            }
+            await _player.setFilePath(state.path ?? '');
+            await _player.play();
           },
           child: Icon(
             state.playerState?.playing == true
