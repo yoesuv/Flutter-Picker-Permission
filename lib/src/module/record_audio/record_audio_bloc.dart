@@ -16,8 +16,6 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
   RecordAudioBloc() : super(const RecordAudioState()) {
     on<RecordAudioInitEvent>(_onInit);
     on<RecordAudioStateEvent>(_onRecording);
-    on<RecordAudioPlayerPlayEvent>(_onPlayerPlay);
-    on<RecordAudioPlayerStateEvent>(_onPlayerState);
     on<RecordAudioTimerEvent>(_onTimer);
   }
 
@@ -124,47 +122,9 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
             path: theFile,
             buttonTitle: 'START',
           ));
-          try {
-            await event.player?.setFilePath(state.path);
-            await event.player?.stop();
-            final duration = event.player?.duration;
-            var str = '';
-            if (duration.toString().length > 9) {
-              str = duration.toString().substring(2,10);
-            } else {
-              str = duration.toString().substring(2,7);
-            }
-            emit(state.copyWith(
-              duration: duration,
-              strDuration: str,
-            ));
-          } catch (e) {
-            debugPrint("RecordAudioBloc # ERROR stop  $e");
-          }
         }
         break;
     }
-  }
-
-  void _onPlayerPlay(
-    RecordAudioPlayerPlayEvent event,
-    Emitter<RecordAudioState> emit,
-  ) async {
-    try {
-      await event.player?.setFilePath(state.path);
-      await event.player?.play();
-    } catch (e) {
-      debugPrint("RecordAudioBloc # ERROR play $e");
-    }
-  }
-
-  void _onPlayerState(
-    RecordAudioPlayerStateEvent event,
-    Emitter<RecordAudioState> emit,
-  ) {
-    emit(state.copyWith(
-      playerState: event.playerState,
-    ));
   }
 
   void _onTimer(

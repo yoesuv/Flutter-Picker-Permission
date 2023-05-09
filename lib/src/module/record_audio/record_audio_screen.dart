@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/core/data/constants.dart';
+import 'package:flutter_picker/src/module/record_audio/player_audio/player_audio.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_bloc.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_event.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_state.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:pausable_timer/pausable_timer.dart';
 
 class RecordAudioScreen extends StatefulWidget {
@@ -19,7 +19,6 @@ class RecordAudioScreen extends StatefulWidget {
 }
 
 class _RecordAudioScreenState extends State<RecordAudioScreen> {
-  final player = AudioPlayer();
   PausableTimer? timer;
   RecordAudioBloc? _bloc;
 
@@ -28,9 +27,6 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
     super.initState();
     _bloc = context.read<RecordAudioBloc>();
     _bloc?.add(RecordAudioInitEvent());
-    player.playerStateStream.listen((streamState) {
-      _bloc?.add(RecordAudioPlayerStateEvent(playerState: streamState));
-    });
     timer = PausableTimer(timerDuration, () {
       _bloc?.add(RecordAudioTimerEvent());
       timer?.reset();
@@ -66,7 +62,6 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
   @override
   void dispose() {
     super.dispose();
-    player.dispose();
     timer?.cancel();
   }
 
@@ -147,7 +142,6 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
                   _bloc?.add(
                     RecordAudioStateEvent(
                       recordingState: RecordingState.stop,
-                      player: player,
                       timer: timer,
                     ),
                   );
@@ -163,29 +157,10 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
   Widget _buildPlayer() {
     return BlocBuilder<RecordAudioBloc, RecordAudioState>(
       bloc: _bloc,
-      buildWhen: (prev, current) =>
-          prev.isReadyToPlay != current.isReadyToPlay ||
-          prev.duration != current.duration,
+      buildWhen: (prev, current) => prev.isReadyToPlay != current.isReadyToPlay,
       builder: (context, state) {
         if (state.isReadyToPlay) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Play Record ${state.strDuration}',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  _bloc?.add(RecordAudioPlayerPlayEvent(player: player));
-                },
-                child: const Icon(Icons.play_arrow_rounded, size: 48),
-              ),
-            ],
-          );
+          return PlayerAudio();
         }
         return Container();
       },
