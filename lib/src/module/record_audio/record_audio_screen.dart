@@ -90,8 +90,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
       buildWhen: (prev, current) => prev.startTime != current.startTime,
       builder: (context, state) => Text(
         '${'${state.startTime?.minute ?? '00'}'.padLeft(2, '0')}:'
-        '${'${state.startTime?.second ?? '00'}'.padLeft(2, '0')}:'
-        '${'${state.startTime?.millisecond ?? '00'}'.padLeft(2, '0').substring(0, 2)}',
+        '${'${state.startTime?.second ?? '00'}'.padLeft(2, '0')}',
         style: const TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
@@ -173,11 +172,10 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Play Record ${state.duration?.inMinutes ?? '00'}:'
-                '${state.duration?.inSeconds ?? 00}:'
-                '${state.duration?.inMilliseconds ?? 00}',
+                'Play Record ${state.strDuration}',
                 style: const TextStyle(
                   fontSize: 14,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               InkWell(

@@ -18,6 +18,7 @@ class RecordAudioState extends Equatable {
   final PlayerState? playerState;
   final String buttonTitle;
   final Duration? duration;
+  final String strDuration;
   final DateTime? startTime;
 
   const RecordAudioState({
@@ -28,6 +29,7 @@ class RecordAudioState extends Equatable {
     this.playerState,
     this.buttonTitle = 'START',
     this.duration,
+    this.strDuration = '',
     this.startTime,
   });
 
@@ -39,6 +41,7 @@ class RecordAudioState extends Equatable {
     PlayerState? playerState,
     String? buttonTitle,
     Duration? duration,
+    String? strDuration,
     DateTime? startTime,
   }) {
     return RecordAudioState(
@@ -49,6 +52,7 @@ class RecordAudioState extends Equatable {
       playerState: playerState ?? this.playerState,
       buttonTitle: buttonTitle ?? this.buttonTitle,
       duration: duration ?? this.duration,
+      strDuration: strDuration ?? this.strDuration,
       startTime: startTime ?? this.startTime,
     );
   }
@@ -62,6 +66,7 @@ class RecordAudioState extends Equatable {
         playerState,
         buttonTitle,
         duration,
+        strDuration,
         startTime,
       ];
 }

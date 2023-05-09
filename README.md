@@ -24,6 +24,7 @@ Tools • Dart 2.19.6 • DevTools 2.20.1
 - [Image Picker](https://pub.dev/packages/image_picker)
 - [Just Audio](https://pub.dev/packages/just_audio)
 - [Location](https://pub.dev/packages/location)
+- [Pausable Timer](https://pub.dev/packages/pausable_timer)
 - [Path Provider](https://pub.dev/packages/path_provider)
 - [Permission Handler](https://pub.dev/packages/permission_handler)
 - [Record](https://pub.dev/packages/record)

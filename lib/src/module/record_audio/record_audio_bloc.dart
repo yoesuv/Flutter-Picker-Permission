@@ -128,8 +128,15 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
             await event.player?.setFilePath(state.path);
             await event.player?.stop();
             final duration = event.player?.duration;
+            var str = '';
+            if (duration.toString().length > 9) {
+              str = duration.toString().substring(2,10);
+            } else {
+              str = duration.toString().substring(2,7);
+            }
             emit(state.copyWith(
               duration: duration,
+              strDuration: str,
             ));
           } catch (e) {
             debugPrint("RecordAudioBloc # ERROR stop  $e");
