@@ -46,7 +46,6 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
 
           if (sdkInt >= 33) {
             final checkMicStatus = await Permission.microphone.status;
-            debugPrint('RecordAudioBloc # mic status $checkMicStatus');
             emit(state.copyWith(
               permissionMicStatus: checkMicStatus,
             ));
@@ -117,7 +116,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
           final theFile = await record.stop();
           debugPrint('RecordAudioBloc # stop recording -> final $theFile');
           emit(state.copyWith(
-            recordingState: RecordingState.start,
+            recordingState: RecordingState.stop,
             isReadyToPlay: true,
             path: theFile,
             buttonTitle: 'START',

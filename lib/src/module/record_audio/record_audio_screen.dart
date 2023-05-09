@@ -104,34 +104,47 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
               MyButton(
                 title: state.buttonTitle,
                 onPressed: () {
-                  if (state.recordingState == RecordingState.start) {
-                    _bloc?.add(
-                      RecordAudioStateEvent(
-                        recordingState: RecordingState.start,
-                        timer: timer,
-                      ),
-                    );
-                  } else if (state.recordingState == RecordingState.recording) {
-                    _bloc?.add(
-                      RecordAudioStateEvent(
-                        recordingState: RecordingState.pause,
-                        timer: timer,
-                      ),
-                    );
-                  } else if (state.recordingState == RecordingState.pause) {
-                    _bloc?.add(
-                      RecordAudioStateEvent(
-                        recordingState: RecordingState.resume,
-                        timer: timer,
-                      ),
-                    );
-                  } else if (state.recordingState == RecordingState.resume) {
-                    _bloc?.add(
-                      RecordAudioStateEvent(
-                        recordingState: RecordingState.resume,
-                        timer: timer,
-                      ),
-                    );
+                  switch (state.recordingState) {
+                    case RecordingState.start:
+                      _bloc?.add(
+                        RecordAudioStateEvent(
+                          recordingState: RecordingState.start,
+                          timer: timer,
+                        ),
+                      );
+                      break;
+                    case RecordingState.recording:
+                      _bloc?.add(
+                        RecordAudioStateEvent(
+                          recordingState: RecordingState.pause,
+                          timer: timer,
+                        ),
+                      );
+                      break;
+                    case RecordingState.pause:
+                      _bloc?.add(
+                        RecordAudioStateEvent(
+                          recordingState: RecordingState.resume,
+                          timer: timer,
+                        ),
+                      );
+                      break;
+                    case RecordingState.resume:
+                      _bloc?.add(
+                        RecordAudioStateEvent(
+                          recordingState: RecordingState.resume,
+                          timer: timer,
+                        ),
+                      );
+                      break;
+                    case RecordingState.stop:
+                      _bloc?.add(
+                        RecordAudioStateEvent(
+                          recordingState: RecordingState.start,
+                          timer: timer,
+                        ),
+                      );
+                      break;
                   }
                 },
               ),
