@@ -157,10 +157,12 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
   Widget _buildPlayer() {
     return BlocBuilder<RecordAudioBloc, RecordAudioState>(
       bloc: _bloc,
-      buildWhen: (prev, current) => prev.isReadyToPlay != current.isReadyToPlay,
+      buildWhen: (prev, current) =>
+          prev.isReadyToPlay != current.isReadyToPlay ||
+          prev.path != current.path,
       builder: (context, state) {
         if (state.isReadyToPlay) {
-          return PlayerAudio();
+          return PlayerAudio(path: state.path);
         }
         return Container();
       },
