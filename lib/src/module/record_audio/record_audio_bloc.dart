@@ -36,6 +36,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     Emitter<RecordAudioState> emit,
   ) async {
     final recordingState = event.recordingState;
+    final timer = event.timer;
     switch (recordingState) {
       case RecordingState.start:
         if (Platform.isAndroid) {
@@ -45,43 +46,23 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
           final sdkInt = androidInfo.version.sdkInt;
 
           if (sdkInt >= 33) {
-            final checkMicStatus = await Permission.microphone.status;
-            emit(state.copyWith(
-              permissionMicStatus: checkMicStatus,
-            ));
-            if (checkMicStatus == PermissionStatus.granted) {
-              await _startRecording(emit, event.timer);
-            } else {
-              final request = await Permission.microphone.request();
-              emit(state.copyWith(
-                permissionMicStatus: request,
-              ));
-              if (request == PermissionStatus.granted) {
-                await _startRecording(emit, event.timer);
-              }
-            }
+            await _checkPermissionAndroidIos(emit, timer);
           } else {
-            debugPrint('RecordAudioBloc # request mic & write storage');
             Map<Permission, PermissionStatus> statuses = await [
               Permission.microphone,
               Permission.storage,
             ].request();
             final checkMicStatus = statuses[Permission.microphone];
             final checkStorageStatus = statuses[Permission.storage];
-            debugPrint('RecordAudioBloc # mic status $checkMicStatus');
-            debugPrint('RecordAudioBloc # storage status $checkStorageStatus');
             if (checkMicStatus == PermissionStatus.granted) {
               if (checkStorageStatus == PermissionStatus.granted) {
-                await _startRecording(emit, event.timer);
+                await _startRecording(emit, timer);
               }
             }
           }
         } else {
           // for ios
-          emit(state.copyWith(
-            recordingState: RecordingState.stop,
-            isReadyToPlay: false,
-          ));
+          await _checkPermissionAndroidIos(emit, timer);
         }
         break;
       case RecordingState.recording:
@@ -134,6 +115,27 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     emit(state.copyWith(
       startTime: time.add(timerDuration),
     ));
+  }
+
+  Future<void> _checkPermissionAndroidIos(
+    Emitter<RecordAudioState> emit,
+    PausableTimer? timer,
+  ) async {
+    final checkMicStatus = await Permission.microphone.status;
+    emit(state.copyWith(
+      permissionMicStatus: checkMicStatus,
+    ));
+    if (checkMicStatus == PermissionStatus.granted) {
+      await _startRecording(emit, timer);
+    } else {
+      final request = await Permission.microphone.request();
+      emit(state.copyWith(
+        permissionMicStatus: request,
+      ));
+      if (request == PermissionStatus.granted) {
+        await _startRecording(emit, timer);
+      }
+    }
   }
 
   Future<void> _startRecording(
