@@ -23,6 +23,8 @@
 	<string>pick photos from gallery</string>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>pick file</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>record audio</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

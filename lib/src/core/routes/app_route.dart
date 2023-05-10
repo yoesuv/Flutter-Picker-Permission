@@ -9,61 +9,79 @@ import 'package:flutter_picker/src/module/gallery/screen/take_gallery_screen.dar
 import 'package:flutter_picker/src/module/home/screen/home_screen.dart';
 import 'package:flutter_picker/src/module/location/bloc/location_bloc.dart';
 import 'package:flutter_picker/src/module/location/screen/location_screen.dart';
+import 'package:flutter_picker/src/module/record_audio/record_audio_bloc.dart';
+import 'package:flutter_picker/src/module/record_audio/record_audio_screen.dart';
 
 class AppRoute {
   static Route<dynamic> routes(RouteSettings settings) {
-    if (settings.name == '/') {
-      return MaterialPageRoute(
-        builder: (context) {
-          return const HomeScreen();
-        },
-      );
-    } else if (settings.name == TakeCameraScreen.routeName) {
-      return MaterialPageRoute(
-        builder: (context) {
-          return BlocProvider(
-            create: (context) => TakeCameraBloc(),
-            child: const TakeCameraScreen(),
-          );
-        },
-      );
-    } else if (settings.name == TakeGalleryScreen.routeName) {
-      return MaterialPageRoute(
-        builder: (context) {
-          return BlocProvider(
-            create: (context) => TakeGalleryBloc(),
-            child: const TakeGalleryScreen(),
-          );
-        },
-      );
-    } else if (settings.name == TakeFileScreen.routeName) {
-      return MaterialPageRoute(
-        builder: (context) {
-          return BlocProvider(
-            create: (context) => TakeFileBloc(),
-            child: const TakeFileScreen(),
-          );
-        },
-      );
-    } else if (settings.name == LocationScreen.routeName) {
-      return MaterialPageRoute(
-        builder: (context) {
-          return BlocProvider(
-            create: (context) => LocationBloc(),
-            child: const LocationScreen(),
-          );
-        },
-      );
-    } else {
-      return MaterialPageRoute(
-        builder: (context) {
-          return const Scaffold(
-            body: Center(
-              child: Text('Page Not Found'),
-            ),
-          );
-        },
-      );
+    switch (settings.name) {
+      case '/':
+        return MaterialPageRoute(
+          builder: (context) {
+            return const HomeScreen();
+          },
+        );
+      case TakeCameraScreen.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return BlocProvider(
+              create: (context) => TakeCameraBloc(),
+              child: const TakeCameraScreen(),
+            );
+          },
+        );
+      case TakeGalleryScreen.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return BlocProvider(
+              create: (context) => TakeGalleryBloc(),
+              child: const TakeGalleryScreen(),
+            );
+          },
+        );
+      case TakeFileScreen.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return BlocProvider(
+              create: (context) => TakeFileBloc(),
+              child: const TakeFileScreen(),
+            );
+          },
+        );
+      case LocationScreen.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return BlocProvider(
+              create: (context) => LocationBloc(),
+              child: const LocationScreen(),
+            );
+          },
+        );
+      case RecordAudioScreen.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return BlocProvider(
+              create: (context) => RecordAudioBloc(),
+              child: const RecordAudioScreen(),
+            );
+          },
+        );
+      default:
+        return MaterialPageRoute(
+          builder: (context) {
+            return const Scaffold(
+              body: Center(
+                child: Text(
+                  'Page Not Found',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            );
+          },
+        );
     }
   }
 }
