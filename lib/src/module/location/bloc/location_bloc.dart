@@ -6,7 +6,6 @@ import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart' as handler;
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
-  final location = Location();
 
   LocationBloc() : super(const LocationState()) {
     on<GetLocationEvent>(_onGetLocation);
@@ -20,7 +19,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     emit(state.copyWith(
       locationService: null,
     ));
-    final checkService = await location.serviceEnabled();
+    final checkService = await isGPSEnabled();
     if (checkService) {
       const permission = handler.Permission.location;
       final permissionStatus = await permission.request();
@@ -43,7 +42,13 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future<void> _getUserLocation(Emitter<LocationState> emit) async {
-    final locationData = await location.getLocation();
+    final locationData = await getLocation(settings: LocationSettings(
+      askForPermission: true,
+      askForGPS: true,
+      fallbackToGPS: true,
+      askForGooglePlayServices: true,
+      useGooglePlayServices: true,
+    ));
     final strLatLng = '${locationData.latitude}, ${locationData.longitude}';
     emit(state.copyWith(
       strLatLng: strLatLng,
