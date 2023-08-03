@@ -3,7 +3,7 @@ import 'package:flutter_picker/src/module/camera/screen/take_camera_screen.dart'
 import 'package:flutter_picker/src/module/file/screen/take_file_screen.dart';
 import 'package:flutter_picker/src/module/gallery/screen/take_gallery_screen.dart';
 import 'package:flutter_picker/src/module/location/screen/location_screen.dart';
-import 'package:flutter_picker/src/module/push_notification/push_notification.dart';
+import 'package:flutter_picker/src/module/push_notification/push_notification_screen.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_screen.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
 
