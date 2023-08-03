@@ -25,9 +25,21 @@ class PushNotificationBloc
   void _showPushNotificationLocal(
     PushNotificationLocalEvent event,
     Emitter<PushNotificationState> emit,
-  ) {
+  ) async {
     debugPrint("PushNotificationBloc # _showPushNotificationLocal");
-    if (Platform.isAndroid) {
-    } else {}
+    final result = await Permission.notification.request();
+    emit(state.copyWith(
+      permissionPushStatus: result,
+    ));
+    if (result == PermissionStatus.granted) {
+      if (Platform.isAndroid) {
+        debugPrint("PushNotificationBloc # Android push notification");
+      } else {
+        debugPrint("PushNotificationBloc # iOS push notification");
+      }
+    } else {
+      debugPrint("PushNotificationBloc # permission DENIED or else");
+    }
   }
+
 }

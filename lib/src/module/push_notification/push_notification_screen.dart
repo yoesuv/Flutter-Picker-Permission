@@ -65,6 +65,7 @@ class _PushNotificationScreenState extends State<PushNotificationScreen> {
           style: const TextStyle(
             fontSize: 16,
           ),
+          textAlign: TextAlign.center,
         ),
       ),
     );
