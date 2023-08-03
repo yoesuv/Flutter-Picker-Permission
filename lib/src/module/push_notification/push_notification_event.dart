@@ -5,4 +5,6 @@ abstract class PushNotificationEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class PushNotificationInitEvent extends PushNotificationEvent {}
+
 class PushNotificationLocalEvent extends PushNotificationEvent {}

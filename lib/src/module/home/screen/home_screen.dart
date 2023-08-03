@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             MyButton(
-              title: 'PUSH NOTIFICATION',
+              title: 'NOTIFICATION',
               onPressed: () {
                 Navigator.pushNamed(context, PushNotificationScreen.routeName);
               },
