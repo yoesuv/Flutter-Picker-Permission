@@ -21,6 +21,7 @@ Tools • Dart 3.0.5 • DevTools 2.23.1
 - [Device Info Plus](https://pub.dev/packages/device_info_plus)
 - [Equatable](https://pub.dev/packages/equatable)
 - [Flutter Bloc](https://pub.dev/packages/flutter_bloc)
+- [Flutter Local Notifications](https://pub.dev/packages/flutter_local_notifications)
 - [File Picker](https://pub.dev/packages/file_picker)
 - [Geolocator](https://pub.dev/packages/geolocator)
 - [Image Picker](https://pub.dev/packages/image_picker)
