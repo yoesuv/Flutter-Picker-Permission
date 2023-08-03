@@ -1,5 +1,5 @@
 PODS:
-  - "app_settings (3.0.0+1)":
+  - app_settings (4.3.0):
     - Flutter
   - audio_session (0.0.1):
     - Flutter
@@ -108,7 +108,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/record/ios"
 
 SPEC CHECKSUMS:
-  app_settings: 54b8813f690b34f757c0bf97a46637bed5acc76c
+  app_settings: ee4ae4d1c9a907a23b81c40e5c56a5ca8a20a62b
   audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   device_info_plus: 7545d84d8d1b896cb16a4ff98c19f07ec4b298ea
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
