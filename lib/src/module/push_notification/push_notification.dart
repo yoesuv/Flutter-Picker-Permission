@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_picker/src/widgets/my_button.dart';
 
 class PushNotificationScreen extends StatefulWidget {
   static const routeName = 'push_notification';
@@ -18,8 +19,19 @@ class _PushNotificationScreenState extends State<PushNotificationScreen> {
         title: const Text('Push Notification'),
       ),
       body: SafeArea(
-        child: Center(
-          child: Text('Push Notification'),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Center(
+                child: MyButton(
+                  title: 'LOCAL NOTIFICATION',
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
