@@ -3,6 +3,7 @@ import 'package:flutter_picker/src/module/camera/screen/take_camera_screen.dart'
 import 'package:flutter_picker/src/module/file/screen/take_file_screen.dart';
 import 'package:flutter_picker/src/module/gallery/screen/take_gallery_screen.dart';
 import 'package:flutter_picker/src/module/location/screen/location_screen.dart';
+import 'package:flutter_picker/src/module/push_notification/push_notification.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_screen.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
 
@@ -47,6 +48,12 @@ class HomeScreen extends StatelessWidget {
               title: 'RECORD AUDIO',
               onPressed: () {
                 Navigator.pushNamed(context, RecordAudioScreen.routeName);
+              },
+            ),
+            MyButton(
+              title: 'PUSH NOTIFICATION',
+              onPressed: () {
+                Navigator.pushNamed(context, PushNotificationScreen.routeName);
               },
             ),
           ],
