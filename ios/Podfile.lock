@@ -1,5 +1,5 @@
 PODS:
-  - "app_settings (3.0.0+1)":
+  - app_settings (4.3.0):
     - Flutter
   - audio_session (0.0.1):
     - Flutter
@@ -40,6 +40,8 @@ PODS:
     - DKImagePickerController/PhotoGallery
     - Flutter
   - Flutter (1.0.0)
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - geolocator_apple (1.2.0):
     - Flutter
   - image_picker_ios (0.0.1):
@@ -49,7 +51,7 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - permission_handler_apple (9.1.0):
+  - permission_handler_apple (9.1.1):
     - Flutter
   - record (0.0.1):
     - Flutter
@@ -64,6 +66,7 @@ DEPENDENCIES:
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - just_audio (from `.symlinks/plugins/just_audio/ios`)
@@ -89,6 +92,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   image_picker_ios:
@@ -103,22 +108,23 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/record/ios"
 
 SPEC CHECKSUMS:
-  app_settings: d103828c9f5d515c4df9ee754dabd443f7cedcf3
+  app_settings: ee4ae4d1c9a907a23b81c40e5c56a5ca8a20a62b
   audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   device_info_plus: 7545d84d8d1b896cb16a4ff98c19f07ec4b298ea
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: ce3938a0df3cc1ef404671531facef740d03f920
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
-  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
-  permission_handler_apple: 8f116445eff3c0e7c65ad60f5fef5490aa94b4e4
+  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   record: cae05d8dd3cdb1dea3511b20e5a5811a1ae00d0d
   SDWebImage: fd7e1a22f00303e058058278639bf6196ee431fe
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
 
-PODFILE CHECKSUM: 779a65f4b2a8a780a57d06f0f5e6882671da916a
+PODFILE CHECKSUM: 2b586387ca3f9760c9517d7f1f620146732c54bf
 
 COCOAPODS: 1.12.1

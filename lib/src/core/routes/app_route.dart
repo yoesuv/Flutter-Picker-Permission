@@ -9,6 +9,8 @@ import 'package:flutter_picker/src/module/gallery/screen/take_gallery_screen.dar
 import 'package:flutter_picker/src/module/home/screen/home_screen.dart';
 import 'package:flutter_picker/src/module/location/bloc/location_bloc.dart';
 import 'package:flutter_picker/src/module/location/screen/location_screen.dart';
+import 'package:flutter_picker/src/module/push_notification/push_notification_bloc.dart';
+import 'package:flutter_picker/src/module/push_notification/push_notification_screen.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_bloc.dart';
 import 'package:flutter_picker/src/module/record_audio/record_audio_screen.dart';
 
@@ -63,6 +65,15 @@ class AppRoute {
             return BlocProvider(
               create: (context) => RecordAudioBloc(),
               child: const RecordAudioScreen(),
+            );
+          },
+        );
+      case PushNotificationScreen.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return BlocProvider(
+              create: (context) => PushNotificationBloc(),
+              child: const PushNotificationScreen(),
             );
           },
         );

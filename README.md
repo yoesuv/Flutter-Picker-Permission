@@ -1,26 +1,27 @@
 ## Flutter Picker & Permission ##
 
 Sample flutter app to handle permission and various picker.  
-download apk file [here](https://www.dropbox.com/s/v6q4vtdy86eesx5)  
+download apk file [here](https://share.ue.internxt.com/sh/file/33624280cf9e809cd44f/483b6681a4dc49689909589acf78ed5e90c6450c192a39c9e12a6e09fc120f3f)  
 
 ```
-Flutter 3.10.4 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision 682aa387cf (10 days ago) • 2023-06-05 18:04:56 -0500
-Engine • revision 2a3401c9bb
-Tools • Dart 3.0.3 • DevTools 2.23.1
+Flutter 3.10.6 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision f468f3366c (3 weeks ago) • 2023-07-12 15:19:05 -0700
+Engine • revision cdbeda788a
+Tools • Dart 3.0.6 • DevTools 2.23.1
 ```
 
 #### Screenshot Android ####
-| ![](https://images2.imgbox.com/ba/f0/O6rAP5Ob_o.png) | ![](https://i.imgur.com/eMlLJTW.png) | ![](https://images2.imgbox.com/51/6b/7A5aAWXx_o.png) | ![](https://i.imgur.com/i8qbRLt.png) |
+| ![](https://i.imgur.com/EJfJICq.png) | ![](https://i.imgur.com/eMlLJTW.png) | ![](https://images2.imgbox.com/51/6b/7A5aAWXx_o.png) | ![](https://i.imgur.com/i8qbRLt.png) |
 |:-----:|:-----:|:-----:|:-----:|
 | ![](https://images2.imgbox.com/08/e4/vRfkypHQ_o.png) | ![](https://i.imgur.com/kBX64w4.png) | ![](https://images2.imgbox.com/25/58/XhIyipux_o.png) | ![](https://images2.imgbox.com/83/fe/lamReEQj_o.png) |
-| ![](https://i.imgur.com/sPcuSDV.png) | ![](https://i.imgur.com/rmpjZDy.png) | - | - |
+| ![](https://i.imgur.com/sPcuSDV.png) | ![](https://i.imgur.com/rmpjZDy.png) | ![](https://images2.imgbox.com/07/5a/hFAPmFjT_o.png) | ![](https://images2.imgbox.com/fe/63/DBOijHt8_o.png) |
 
 #### List Library ####
 - [App Settings](https://pub.dev/packages/app_settings)
 - [Device Info Plus](https://pub.dev/packages/device_info_plus)
 - [Equatable](https://pub.dev/packages/equatable)
 - [Flutter Bloc](https://pub.dev/packages/flutter_bloc)
+- [Flutter Local Notifications](https://pub.dev/packages/flutter_local_notifications)
 - [File Picker](https://pub.dev/packages/file_picker)
 - [Geolocator](https://pub.dev/packages/geolocator)
 - [Image Picker](https://pub.dev/packages/image_picker)
