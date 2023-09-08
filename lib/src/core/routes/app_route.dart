@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/camera/bloc/take_camera_bloc.dart';
 import 'package:flutter_picker/src/module/camera/screen/take_camera_screen.dart';
+import 'package:flutter_picker/src/module/download/download_file_screen.dart';
 import 'package:flutter_picker/src/module/file/bloc/take_file_bloc.dart';
 import 'package:flutter_picker/src/module/file/screen/take_file_screen.dart';
 import 'package:flutter_picker/src/module/gallery/bloc/take_gallery_bloc.dart';
@@ -75,6 +76,12 @@ class AppRoute {
               create: (context) => PushNotificationBloc(),
               child: const PushNotificationScreen(),
             );
+          },
+        );
+      case DownloadFileScreen.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return DownloadFileScreen();
           },
         );
       default:
