@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -47,7 +48,15 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
   ) async {
     final androidInfo = await DeviceInfoPlugin().androidInfo;
     final sdkInt = androidInfo.version.sdkInt;
+    Directory? directory;
     if (sdkInt >= 33) {
+      //TO DO check push notification permission
+      directory = Directory("/storage/emulated/0/Download");
+      if (!await directory.exists()) {
+        directory = await getExternalStorageDirectory();
+      }
+      final path = directory?.path ?? "";
+      await FlutterDownloader.enqueue(url: linkDownloadFile, savedDir: path);
     } else {}
   }
 
