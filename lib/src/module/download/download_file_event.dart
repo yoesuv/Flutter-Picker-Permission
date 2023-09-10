@@ -5,6 +5,8 @@ abstract class DownloadFileEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class DownloadFileInitEvent extends DownloadFileEvent {}
+
 class DownloadFileStartAndroidEvent extends DownloadFileEvent {}
 
 class DownloadFileStartIOSEvent extends DownloadFileEvent {}

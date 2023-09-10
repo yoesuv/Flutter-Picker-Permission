@@ -24,6 +24,7 @@ class _DownloadFileScreenState extends State<DownloadFileScreen> {
   void initState() {
     super.initState();
     _bloc = context.read<DownloadFileBloc>();
+    _bloc?.add(DownloadFileInitEvent());
   }
 
   @override
