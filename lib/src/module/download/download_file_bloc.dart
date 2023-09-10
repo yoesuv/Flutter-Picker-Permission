@@ -10,11 +10,11 @@ import 'package:flutter_picker/src/core/data/constants.dart';
 import 'package:flutter_picker/src/module/download/download_file_event.dart';
 import 'package:flutter_picker/src/module/download/download_file_state.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 const downloadPort = "downloader_send_port";
 
 class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
-
   final ReceivePort _port = ReceivePort();
 
   DownloadFileBloc() : super(DownloadFileState()) {
@@ -27,14 +27,15 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
     DownloadFileInitEvent event,
     Emitter<DownloadFileState> emit,
   ) async {
-    await FlutterDownloader.initialize(ignoreSsl: true, debug: true);
     IsolateNameServer.registerPortWithName(_port.sendPort, downloadPort);
     _port.listen((dynamic data) {
       try {
         final id = data[0] as String;
         final status = data[1] as int;
         final progress = data[2] as int;
-        debugPrint("DownloadFileBloc # id $id/status $status/progress $progress");
+        debugPrint(
+          "DownloadFileBloc # id $id/status $status/progress $progress",
+        );
       } catch (e) {
         debugPrint("DownloadFileBloc # ERROR $e");
       }
@@ -48,16 +49,11 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
   ) async {
     final androidInfo = await DeviceInfoPlugin().androidInfo;
     final sdkInt = androidInfo.version.sdkInt;
-    Directory? directory;
     if (sdkInt >= 33) {
-      //TO DO check push notification permission
-      directory = Directory("/storage/emulated/0/Download");
-      if (!await directory.exists()) {
-        directory = await getExternalStorageDirectory();
-      }
-      final path = directory?.path ?? "";
-      await FlutterDownloader.enqueue(url: linkDownloadFile, savedDir: path);
-    } else {}
+      await _checkAndroid(permission: Permission.notification);
+    } else {
+      await _checkAndroid(permission: Permission.storage);
+    }
   }
 
   void _onStartDownloadIos(
@@ -66,12 +62,30 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
   ) async {
     final documents = await getApplicationDocumentsDirectory();
     final path = documents.path;
-    await FlutterDownloader.enqueue(url: linkDownloadFile, savedDir: path);
+    await _downloadFile(path: path);
   }
 
+  @pragma('vm:entry-point')
   static void downloadCallback(String id, int status, int progress) {
     final send = IsolateNameServer.lookupPortByName(downloadPort);
     send?.send([id, status, progress]);
   }
 
+  Future<void> _checkAndroid({
+    required Permission permission,
+  }) async {
+    Directory? directory = Directory("/storage/emulated/0/Download");
+    final result = await permission.request();
+    if (result == PermissionStatus.granted) {
+      if (!await directory.exists()) {
+        directory = await getExternalStorageDirectory();
+      }
+      final path = directory?.path ?? "";
+      await _downloadFile(path: path);
+    }
+  }
+
+  Future<void> _downloadFile({required String path}) async {
+    await FlutterDownloader.enqueue(url: linkDownloadFile, savedDir: path);
+  }
 }
