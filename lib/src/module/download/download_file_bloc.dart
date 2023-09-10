@@ -1,8 +1,11 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter_picker/src/core/data/constants.dart';
 import 'package:flutter_picker/src/module/download/download_file_event.dart';
 import 'package:flutter_picker/src/module/download/download_file_state.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
   DownloadFileBloc() : super(DownloadFileState()) {
@@ -27,8 +30,10 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
   void _onStartDownloadIos(
       DownloadFileStartIOSEvent event,
       Emitter<DownloadFileState> emit,
-      ) {
-    debugPrint("DownloadFileBloc # start download ios");
+      ) async {
+    final documents = await getApplicationDocumentsDirectory();
+    final path = documents.path;
+    await FlutterDownloader.enqueue(url: linkDownloadFile, savedDir: path);
   }
 
 }
