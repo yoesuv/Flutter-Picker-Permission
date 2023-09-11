@@ -17,7 +17,7 @@ const downloadPort = "downloader_send_port";
 class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
   final ReceivePort _port = ReceivePort();
 
-  DownloadFileBloc() : super(DownloadFileState()) {
+  DownloadFileBloc() : super(const DownloadFileState()) {
     on<DownloadFileInitEvent>(_init);
     on<DownloadFileStartAndroidEvent>(_onStartDownloadAndroid);
     on<DownloadFileStartIOSEvent>(_onStartDownloadIos);
@@ -30,12 +30,11 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
     IsolateNameServer.registerPortWithName(_port.sendPort, downloadPort);
     _port.listen((dynamic data) {
       try {
-        final id = data[0] as String;
+        //final id = data[0] as String;
         final status = data[1] as int;
         final progress = data[2] as int;
-        debugPrint(
-          "DownloadFileBloc # id $id/status $status/progress $progress",
-        );
+        debugPrint("DownloadFileBloc # status $status");
+        debugPrint("DownloadFileBloc # progress $progress");
       } catch (e) {
         debugPrint("DownloadFileBloc # ERROR $e");
       }
@@ -86,6 +85,10 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
   }
 
   Future<void> _downloadFile({required String path}) async {
-    await FlutterDownloader.enqueue(url: linkDownloadFile, savedDir: path);
+    await FlutterDownloader.enqueue(
+      url: linkDownloadFile,
+      savedDir: path,
+      saveInPublicStorage: true,
+    );
   }
 }
