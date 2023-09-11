@@ -21,6 +21,7 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
     on<DownloadFileInitEvent>(_init);
     on<DownloadFileStartAndroidEvent>(_onStartDownloadAndroid);
     on<DownloadFileStartIOSEvent>(_onStartDownloadIos);
+    on<DownloadFileUpdateEvent>(_onUpdateDownload);
   }
 
   void _init(
@@ -30,11 +31,12 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
     IsolateNameServer.registerPortWithName(_port.sendPort, downloadPort);
     _port.listen((dynamic data) {
       try {
-        //final id = data[0] as String;
         final status = data[1] as int;
         final progress = data[2] as int;
-        debugPrint("DownloadFileBloc # status $status");
-        debugPrint("DownloadFileBloc # progress $progress");
+        add(DownloadFileUpdateEvent(
+          downloadTaskStatus: DownloadTaskStatus.values.elementAt(status),
+          progress: progress,
+        ));
       } catch (e) {
         debugPrint("DownloadFileBloc # ERROR $e");
       }
@@ -62,6 +64,17 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
     final documents = await getApplicationDocumentsDirectory();
     final path = documents.path;
     await _downloadFile(path: path);
+  }
+
+  void _onUpdateDownload(
+    DownloadFileUpdateEvent event,
+    Emitter<DownloadFileState> emit,
+  ) {
+    debugPrint("DownloadFileBloc # ${event.downloadTaskStatus}/${event.progress}");
+    emit(state.copyWith(
+      progress: event.progress,
+      downloadTaskStatus: event.downloadTaskStatus,
+    ));
   }
 
   @pragma('vm:entry-point')

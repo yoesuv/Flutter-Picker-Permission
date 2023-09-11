@@ -55,7 +55,7 @@ class _DownloadFileScreenState extends State<DownloadFileScreen> {
         bloc: _bloc,
         buildWhen: (prev, current) => prev.progress != current.progress,
         builder: (context, state) => Text(
-          '${state.progress}',
+          'Progress : ${state.progress}%',
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
