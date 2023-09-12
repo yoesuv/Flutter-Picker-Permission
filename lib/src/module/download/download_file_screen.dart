@@ -53,9 +53,11 @@ class _DownloadFileScreenState extends State<DownloadFileScreen> {
     return Center(
       child: BlocBuilder<DownloadFileBloc, DownloadFileState>(
         bloc: _bloc,
-        buildWhen: (prev, current) => prev.progress != current.progress,
+        buildWhen: (prev, current) =>
+            prev.progress != current.progress ||
+            prev.downloadTaskStatus != current.downloadTaskStatus,
         builder: (context, state) => Text(
-          'Progress : ${state.progress}%',
+          '${state.downloadTaskStatus.name} ${state.progress}%',
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
