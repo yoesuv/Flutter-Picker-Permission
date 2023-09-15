@@ -19,6 +19,7 @@ Tools • Dart 3.1.0 • DevTools 2.25.0
 #### List Library ####
 - [App Settings](https://pub.dev/packages/app_settings)
 - [Device Info Plus](https://pub.dev/packages/device_info_plus)
+- [Dio](https://pub.dev/packages/dio)
 - [Equatable](https://pub.dev/packages/equatable)
 - [Flutter Bloc](https://pub.dev/packages/flutter_bloc)
 - [Flutter Downloader](https://pub.dev/packages/flutter_downloader)

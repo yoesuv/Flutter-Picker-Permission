@@ -3,6 +3,7 @@ import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -28,20 +29,22 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
     DownloadFileInitEvent event,
     Emitter<DownloadFileState> emit,
   ) async {
-    IsolateNameServer.registerPortWithName(_port.sendPort, downloadPort);
-    _port.listen((dynamic data) {
-      try {
-        final status = data[1] as int;
-        final progress = data[2] as int;
-        add(DownloadFileUpdateEvent(
-          downloadTaskStatus: DownloadTaskStatus.values.elementAt(status),
-          progress: progress,
-        ));
-      } catch (e) {
-        debugPrint("DownloadFileBloc # ERROR $e");
-      }
-    });
-    FlutterDownloader.registerCallback(downloadCallback);
+    if (Platform.isAndroid) {
+      IsolateNameServer.registerPortWithName(_port.sendPort, downloadPort);
+      _port.listen((dynamic data) {
+        try {
+          final status = data[1] as int;
+          final progress = data[2] as int;
+          add(DownloadFileUpdateEvent(
+            downloadTaskStatus: DownloadTaskStatus.values.elementAt(status),
+            progress: progress,
+          ));
+        } catch (e) {
+          debugPrint("DownloadFileBloc # ERROR $e");
+        }
+      });
+      FlutterDownloader.registerCallback(downloadCallback);
+    }
   }
 
   void _onStartDownloadAndroid(
@@ -62,8 +65,14 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
     Emitter<DownloadFileState> emit,
   ) async {
     final documents = await getApplicationDocumentsDirectory();
-    final path = documents.path;
-    await _downloadFile(path: path);
+    final pathAndName = "${documents.path}${Platform.pathSeparator}document_downloaded_with_dio.pdf";
+    debugPrint("DownloadFileBloc # ios path $pathAndName");
+    Dio().download(linkDownloadFile, pathAndName, onReceiveProgress: (count, total) {
+      debugPrint("DownloadFileBloc # count $count/total $total");
+      if (count == total) {
+        debugPrint("DownloadFileBloc # DOWNLOAD FINISH");
+      }
+    });
   }
 
   void _onUpdateDownload(
