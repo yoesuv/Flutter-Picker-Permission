@@ -43,7 +43,7 @@ dependencies:
   equatable: ^2.0.5
   file_picker: ^5.5.0
   record: ^4.4.4
-  path_provider: ^2.0.15
+  path_provider: ^2.1.1
   just_audio: ^0.9.34
   pausable_timer: ^2.0.0
   flutter_local_notifications: ^15.1.0+1
