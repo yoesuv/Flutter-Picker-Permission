@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/src/module/camera/screen/take_camera_screen.dart';
+import 'package:flutter_picker/src/module/download/download_file_screen.dart';
 import 'package:flutter_picker/src/module/file/screen/take_file_screen.dart';
 import 'package:flutter_picker/src/module/gallery/screen/take_gallery_screen.dart';
 import 'package:flutter_picker/src/module/location/screen/location_screen.dart';
@@ -54,6 +55,12 @@ class HomeScreen extends StatelessWidget {
               title: 'NOTIFICATION',
               onPressed: () {
                 Navigator.pushNamed(context, PushNotificationScreen.routeName);
+              },
+            ),
+            MyButton(
+              title: 'DOWNLOAD FILE',
+              onPressed: () {
+                Navigator.pushNamed(context, DownloadFileScreen.routeName);
               },
             ),
           ],

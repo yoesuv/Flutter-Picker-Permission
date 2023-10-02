@@ -2,29 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
-	<dict>
-		<key>user location</key>
-		<string>get user location</string>
-	</dict>
-	<key>NSLocationUsageDescription</key>
-	<string>get user location</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Need location when in use</string>
-	<key>NSDownloadsFolderUsageDescription</key>
-	<string>pick file</string>
-	<key>NSDocumentsFolderUsageDescription</key>
-	<string>pick file</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>take photo from camera</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>pick photos from gallery</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>pick file</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>record audio</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -47,6 +26,42 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>pick file</string>
+	<key>NSCameraUsageDescription</key>
+	<string>take photo from camera</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>pick file</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>pick file</string>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+		<key>user location</key>
+		<string>get user location</string>
+	</dict>
+	<key>NSLocationUsageDescription</key>
+	<string>get user location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Need location when in use</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>record audio</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>pick photos from gallery</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+	<key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key><true/>
+    </dict>
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
+    <key>UIFileSharingEnabled</key>
+    <true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -66,7 +81,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
 </dict>
 </plist>
