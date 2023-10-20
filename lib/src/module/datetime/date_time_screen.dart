@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_picker/src/module/datetime/date_time_bloc.dart';
+import 'package:flutter_picker/src/module/datetime/date_time_event.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
 
 class DateTimeScreen extends StatefulWidget {
@@ -12,6 +15,15 @@ class DateTimeScreen extends StatefulWidget {
 }
 
 class _DateTimeScreenState extends State<DateTimeScreen> {
+
+  DateTimeBloc? _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = context.read<DateTimeBloc>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +59,7 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
             initialEntryMode: DatePickerEntryMode.calendar,
           );
           if (theDate != null) {
-            debugPrint("DateTimeScreen # ${theDate.toLocal()}");
+            _bloc?.add(DateTimeSetDateEvent(dateTime: theDate));
           }
         },
       ),
