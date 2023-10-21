@@ -108,10 +108,25 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                monthViewSettings: const DateRangePickerMonthViewSettings(
+                  viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                    textStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    )
+                  )
+                ),
                 selectionMode: DateRangePickerSelectionMode.single,
                 showNavigationArrow: true,
-                onSelectionChanged: (args) {
-                  final theDate = args.value as DateTime;
+                showActionButtons: true,
+                selectionRadius: 20,
+                selectionTextStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                onCancel: () => Navigator.pop(context),
+                onSubmit: (value) {
+                  final theDate = value as DateTime;
                   _bloc?.add(DateTimeSetDateEvent(dateTime: theDate));
                   Navigator.pop(context);
                 },
