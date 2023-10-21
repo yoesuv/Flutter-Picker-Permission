@@ -99,7 +99,23 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
           showModalBottomSheet(
             context: context,
             builder: (context) {
-              return SfDateRangePicker();
+              return SfDateRangePicker(
+                headerHeight: 60,
+                headerStyle: const DateRangePickerHeaderStyle(
+                  textStyle: TextStyle(
+                    color: Colors.deepPurple,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                selectionMode: DateRangePickerSelectionMode.single,
+                showNavigationArrow: true,
+                onSelectionChanged: (args) {
+                  final theDate = args.value as DateTime;
+                  _bloc?.add(DateTimeSetDateEvent(dateTime: theDate));
+                  Navigator.pop(context);
+                },
+              );
             },
           );
         },
