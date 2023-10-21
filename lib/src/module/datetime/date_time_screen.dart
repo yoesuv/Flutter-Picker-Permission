@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/datetime/date_time_bloc.dart';
 import 'package:flutter_picker/src/module/datetime/date_time_event.dart';
+import 'package:flutter_picker/src/module/datetime/date_time_state.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
 
 class DateTimeScreen extends StatefulWidget {
@@ -15,13 +16,13 @@ class DateTimeScreen extends StatefulWidget {
 }
 
 class _DateTimeScreenState extends State<DateTimeScreen> {
-
   DateTimeBloc? _bloc;
 
   @override
   void initState() {
     super.initState();
     _bloc = context.read<DateTimeBloc>();
+    _bloc?.add(DateTimeInitEvent());
   }
 
   @override
@@ -36,11 +37,32 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              _buildSelectedDate(),
+              const SizedBox(height: 8),
               _buildDefaultDate(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSelectedDate() {
+    return BlocBuilder<DateTimeBloc, DateTimeState>(
+      bloc: _bloc,
+      buildWhen: (prev, current) => prev.selectedDate != current.selectedDate,
+      builder: (context, state) {
+        final date = state.selectedDate;
+        final day = date?.day;
+        final month = date?.month;
+        final year = date?.year;
+        return Text(
+          "Selected Date : $day/$month/$year",
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        );
+      },
     );
   }
 
