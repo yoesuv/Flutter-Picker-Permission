@@ -32,3 +32,4 @@ Tools • Dart 3.1.3 • DevTools 2.25.0
 - [Path Provider](https://pub.dev/packages/path_provider)
 - [Permission Handler](https://pub.dev/packages/permission_handler)
 - [Record](https://pub.dev/packages/record)
+- [Syncfusion Date Picker](https://pub.dev/packages/syncfusion_flutter_datepicker)

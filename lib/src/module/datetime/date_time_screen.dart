@@ -4,6 +4,7 @@ import 'package:flutter_picker/src/module/datetime/date_time_bloc.dart';
 import 'package:flutter_picker/src/module/datetime/date_time_event.dart';
 import 'package:flutter_picker/src/module/datetime/date_time_state.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DateTimeScreen extends StatefulWidget {
   static const routeName = 'date_time';
@@ -40,6 +41,8 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
               _buildSelectedDate(),
               const SizedBox(height: 8),
               _buildDefaultDate(),
+              const SizedBox(height: 8),
+              _buildCustomDate(),
             ],
           ),
         ),
@@ -83,6 +86,22 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
           if (theDate != null) {
             _bloc?.add(DateTimeSetDateEvent(dateTime: theDate));
           }
+        },
+      ),
+    );
+  }
+
+  Widget _buildCustomDate() {
+    return Center(
+      child: MyButton(
+        title: 'CUSTOM DATE PICKER',
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return SfDateRangePicker();
+            },
+          );
         },
       ),
     );
