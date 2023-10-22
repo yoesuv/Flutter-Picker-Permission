@@ -43,6 +43,8 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
               _buildDefaultDate(),
               const SizedBox(height: 8),
               _buildCustomDate(),
+              const SizedBox(height: 8),
+              _buildDefaultTime(),
             ],
           ),
         ),
@@ -109,13 +111,11 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
                   ),
                 ),
                 monthViewSettings: const DateRangePickerMonthViewSettings(
-                  viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                    textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    )
-                  )
-                ),
+                    viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                        textStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ))),
                 selectionMode: DateRangePickerSelectionMode.single,
                 showNavigationArrow: true,
                 showActionButtons: true,
@@ -133,6 +133,35 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
               );
             },
           );
+        },
+      ),
+    );
+  }
+
+  Widget _buildDefaultTime() {
+    return Center(
+      child: MyButton(
+        title: 'DEFAULT TIME PICKER',
+        onPressed: () async {
+          final now = TimeOfDay.now();
+          var theTime = await showTimePicker(
+            context: context,
+            initialTime: now,
+            builder: (context, Widget? theChild) {
+              if (theChild != null) {
+                return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    alwaysUse24HourFormat: true,
+                  ),
+                  child: theChild,
+                );
+              }
+              return Container();
+            },
+          );
+          if (theTime != null) {
+            debugPrint("DateTimeScreen # time $theTime");
+          }
         },
       ),
     );
