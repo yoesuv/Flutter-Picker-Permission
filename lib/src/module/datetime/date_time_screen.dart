@@ -100,6 +100,12 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
         onPressed: () {
           showModalBottomSheet(
             context: context,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+              ),
+            ),
             builder: (context) {
               return SfDateRangePicker(
                 headerHeight: 60,
