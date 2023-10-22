@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/src/module/camera/screen/take_camera_screen.dart';
+import 'package:flutter_picker/src/module/datetime/date_time_screen.dart';
 import 'package:flutter_picker/src/module/download/download_file_screen.dart';
 import 'package:flutter_picker/src/module/file/screen/take_file_screen.dart';
 import 'package:flutter_picker/src/module/gallery/screen/take_gallery_screen.dart';
@@ -61,6 +62,12 @@ class HomeScreen extends StatelessWidget {
               title: 'DOWNLOAD FILE',
               onPressed: () {
                 Navigator.pushNamed(context, DownloadFileScreen.routeName);
+              },
+            ),
+            MyButton(
+              title: 'DATE TIME',
+              onPressed: () {
+                Navigator.pushNamed(context, DateTimeScreen.routeName);
               },
             ),
           ],
