@@ -136,8 +136,10 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
                 ),
                 onCancel: () => Navigator.pop(context),
                 onSubmit: (value) {
-                  final theDate = value as DateTime;
-                  _bloc?.add(DateTimeSetDateEvent(dateTime: theDate));
+                  if (value != null) {
+                    final theDate = value as DateTime;
+                    _bloc?.add(DateTimeSetDateEvent(dateTime: theDate));
+                  }
                   Navigator.pop(context);
                 },
               );
