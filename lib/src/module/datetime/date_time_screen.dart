@@ -44,6 +44,8 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
               const SizedBox(height: 8),
               _buildCustomDate(),
               const SizedBox(height: 8),
+              _buildSelectedTime(),
+              const SizedBox(height: 8),
               _buildDefaultTime(),
             ],
           ),
@@ -117,11 +119,13 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
                   ),
                 ),
                 monthViewSettings: const DateRangePickerMonthViewSettings(
-                    viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                        textStyle: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ))),
+                  viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                    textStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 selectionMode: DateRangePickerSelectionMode.single,
                 showNavigationArrow: true,
                 showActionButtons: true,
@@ -141,6 +145,22 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
           );
         },
       ),
+    );
+  }
+
+  Widget _buildSelectedTime() {
+    return BlocBuilder<DateTimeBloc, DateTimeState>(
+      bloc: _bloc,
+      buildWhen: (prev, current) => prev.selectedTime != current.selectedTime,
+      builder: (context, state) {
+        final time = state.selectedTime;
+        return Text(
+          "Selected Time : $time",
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        );
+      },
     );
   }
 
@@ -166,7 +186,7 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
             },
           );
           if (theTime != null) {
-            debugPrint("DateTimeScreen # time $theTime");
+            _bloc?.add(DateTimeSetTimeEvent(timeOfDay: theTime));
           }
         },
       ),
