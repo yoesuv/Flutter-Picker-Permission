@@ -18,29 +18,26 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
     TakeGalleryOpenAndroidEvent event,
     Emitter<TakeGalleryState> emit,
   ) async {
-    late Permission permission;
     final deviceInfo = DeviceInfoPlugin();
     final androidInfo = await deviceInfo.androidInfo;
     final sdkInt = androidInfo.version.sdkInt;
     debugPrint('Take Gallery Bloc # android sdk int $sdkInt');
-
     if (sdkInt >= 33) {
-      permission = Permission.photos;
-    } else {
-      permission = Permission.storage;
-    }
-
-    debugPrint('Take Gallery Bloc # permission $permission');
-    final status = await permission.status;
-    if (status == PermissionStatus.granted) {
       await _setSelectedImage(emit);
     } else {
-      final request = await permission.request();
-      if (request == PermissionStatus.granted) {
+      late Permission permission = Permission.storage;
+      debugPrint('Take Gallery Bloc # permission $permission');
+      final status = await permission.status;
+      if (status == PermissionStatus.granted) {
         await _setSelectedImage(emit);
       } else {
-        emit(state.copyWith(permissionStatus: null));
-        emit(state.copyWith(permissionStatus: request));
+        final request = await permission.request();
+        if (request == PermissionStatus.granted) {
+          await _setSelectedImage(emit);
+        } else {
+          emit(state.copyWith(permissionStatus: null));
+          emit(state.copyWith(permissionStatus: request));
+        }
       }
     }
   }
