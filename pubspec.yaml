@@ -44,6 +44,8 @@ dependencies:
   flutter_local_notifications: ^16.1.0
   geolocator: ^10.1.0
   image_picker: ^1.0.5
+  image_picker_android: ^0.8.9+1
+  image_picker_platform_interface: ^2.9.1
   just_audio: ^0.9.34
   pausable_timer: ^2.0.0+1
   path_provider: ^2.1.1

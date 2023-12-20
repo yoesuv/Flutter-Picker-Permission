@@ -28,6 +28,8 @@ Tools • Dart 3.1.4 • DevTools 2.25.0
 - [File Picker](https://pub.dev/packages/file_picker)
 - [Geolocator](https://pub.dev/packages/geolocator)
 - [Image Picker](https://pub.dev/packages/image_picker)
+- [Image Picker Android](https://pub.dev/packages/image_picker_android)
+- [Image Picker Platform Interface](https://pub.dev/packages/image_picker_platform_interface)
 - [Just Audio](https://pub.dev/packages/just_audio)
 - [Pausable Timer](https://pub.dev/packages/pausable_timer)
 - [Path Provider](https://pub.dev/packages/path_provider)
