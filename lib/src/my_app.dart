@@ -9,7 +9,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Picker',
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        appBarTheme: const AppBarTheme(
+          elevation: 8,
+          backgroundColor: Colors.deepPurple,
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 20,
+            color: Colors.white,
+          ),
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
       ),
       onGenerateRoute: AppRoute.routes,
     );
