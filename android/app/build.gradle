@@ -63,7 +63,10 @@ android {
                 variant.outputs.all {
                     def appName = "flutter_picker_permission"
                     def version = variant.versionName
-                    outputFileName = "../../../../../$appName-(v${version})-${variant.name}.apk"
+                    def minSdk = android.defaultConfig.minSdkVersion.getApiLevel()
+                    def targetSdk = android.defaultConfig.targetSdkVersion.getApiLevel()
+                    def sdkConfig = "sdk(${minSdk}-${targetSdk})"
+                    outputFileName = "../../../../../$appName-(v${version})-${sdkConfig}-${variant.name}.apk"
                 }
             }
         }
