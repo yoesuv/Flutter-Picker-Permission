@@ -66,7 +66,11 @@ android {
                     def minSdk = android.defaultConfig.minSdkVersion.getApiLevel()
                     def targetSdk = android.defaultConfig.targetSdkVersion.getApiLevel()
                     def sdkConfig = "sdk(${minSdk}-${targetSdk})"
-                    outputFileName = "../../../../../$appName-(v${version})-${sdkConfig}-${variant.name}.apk"
+                    if (variant.name == "debug") {
+                        outputFileName = "$appName-(v${version})-${sdkConfig}-${variant.name}.apk"
+                    } else {
+                        outputFileName = "../../../../../$appName-(v${version})-${sdkConfig}-${variant.name}.apk"
+                    }
                 }
             }
         }
