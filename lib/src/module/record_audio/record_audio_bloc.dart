@@ -12,7 +12,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:record/record.dart';
 
 class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
-  final record = Record();
+  final record = AudioRecorder();
   RecordAudioBloc() : super(const RecordAudioState()) {
     on<RecordAudioInitEvent>(_onInit);
     on<RecordAudioStateEvent>(_onRecording);
@@ -156,10 +156,12 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     );
     Directory dir = await getTemporaryDirectory();
     await record.start(
+      const RecordConfig(
+        encoder: AudioEncoder.aacLc,
+        bitRate: 128000,
+        sampleRate: 44100,
+      ),
       path: '${dir.path}/file_recording.m4a',
-      encoder: AudioEncoder.aacLc,
-      bitRate: 128000,
-      samplingRate: 44100,
     );
   }
 }
