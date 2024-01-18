@@ -50,6 +50,7 @@ PODS:
     - Flutter
   - just_audio (0.0.1):
     - Flutter
+  - Mute (0.6.1)
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -61,6 +62,9 @@ PODS:
   - SDWebImage (5.18.5):
     - SDWebImage/Core (= 5.18.5)
   - SDWebImage/Core (5.18.5)
+  - sound_mode (0.0.1):
+    - Flutter
+    - Mute (~> 0.6.0)
   - SwiftyGif (5.4.4)
 
 DEPENDENCIES:
@@ -77,11 +81,13 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - record_darwin (from `.symlinks/plugins/record_darwin/ios`)
+  - sound_mode (from `.symlinks/plugins/sound_mode/ios`)
 
 SPEC REPOS:
   trunk:
     - DKImagePickerController
     - DKPhotoGallery
+    - Mute
     - SDWebImage
     - SwiftyGif
 
@@ -112,6 +118,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   record_darwin:
     :path: ".symlinks/plugins/record_darwin/ios"
+  sound_mode:
+    :path: ".symlinks/plugins/sound_mode/ios"
 
 SPEC CHECKSUMS:
   app_settings: 017320c6a680cdc94c799949d95b84cb69389ebc
@@ -120,18 +128,20 @@ SPEC CHECKSUMS:
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_downloader: b7301ae057deadd4b1650dc7c05375f10ff12c39
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
-  geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
-  image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
+  geolocator_apple: 9157311f654584b9bb72686c55fc02a97b73f461
+  image_picker_ios: 99dfe1854b4fa34d0364e74a78448a0151025425
   just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
-  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  Mute: 20135a96076f140cc82bfc8b810e2d6150d8ec7e
+  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   record_darwin: 1f6619f2abac4d1ca91d3eeab038c980d76f1517
   SDWebImage: 7ac2b7ddc5e8484c79aa90fc4e30b149d6a2c88f
+  sound_mode: ef0072f20e7306c1c371984a443156e39be092d5
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
 
-PODFILE CHECKSUM: 2b586387ca3f9760c9517d7f1f620146732c54bf
+PODFILE CHECKSUM: 1cd9471139aa9ffa8f28f9f28d6fd93650d362af
 
 COCOAPODS: 1.14.3

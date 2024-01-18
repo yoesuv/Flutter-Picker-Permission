@@ -684,10 +684,10 @@ packages:
     dependency: transitive
     description:
       name: record_web
-      sha256: "687c843fb58a70c2735618163cd7b7ffbf845e7e75e1022c91156fc4877a2717"
+      sha256: "24847cdbcf999f7a5762170792f622ac844858766becd0f2370ec8ae22f7526e"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   record_windows:
     dependency: transitive
     description:
