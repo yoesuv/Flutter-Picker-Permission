@@ -52,7 +52,9 @@ class _PushNotificationScreenState extends State<PushNotificationScreen> {
               Center(
                 child: MyButton(
                   title: 'LOCAL NOTIFICATION SOUND',
-                  onPressed: () {},
+                  onPressed: () {
+                    _bloc?.add(PushNotificationSoundEvent());
+                  },
                 ),
               ),
             ],

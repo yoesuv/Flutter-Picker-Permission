@@ -8,3 +8,5 @@ abstract class PushNotificationEvent extends Equatable {
 class PushNotificationInitEvent extends PushNotificationEvent {}
 
 class PushNotificationLocalEvent extends PushNotificationEvent {}
+
+class PushNotificationSoundEvent extends PushNotificationEvent {}

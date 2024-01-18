@@ -8,12 +8,12 @@ import 'package:sound_mode/sound_mode.dart';
 
 class PushNotificationBloc
     extends Bloc<PushNotificationEvent, PushNotificationState> {
-
   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   PushNotificationBloc() : super(const PushNotificationState()) {
     on<PushNotificationInitEvent>(_init);
     on<PushNotificationLocalEvent>(_showPushNotificationLocal);
+    on<PushNotificationSoundEvent>(_showPushNotificationSound);
   }
 
   void _init(
@@ -21,7 +21,8 @@ class PushNotificationBloc
     Emitter<PushNotificationState> emit,
   ) async {
     // setup notifications
-    const initializationSettingsAndroid = AndroidInitializationSettings('ic_notification');
+    const initializationSettingsAndroid =
+        AndroidInitializationSettings('ic_notification');
     const initializationSettingsIOS = DarwinInitializationSettings();
     const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -47,30 +48,44 @@ class PushNotificationBloc
       permissionPushStatus: result,
     ));
     if (result == PermissionStatus.granted) {
-        const androidPlatformChannelSpecifics = AndroidNotificationDetails(
-          'channel_id',
-          'Push Local Notification',
-          playSound: true,
-          enableVibration: true,
-          importance: Importance.max,
-          priority: Priority.high,
-          color: Colors.deepPurple,
-        );
-        const iOSPlatformChannelSpecifics = DarwinNotificationDetails();
-        const platformChannelSpecifics = NotificationDetails(
-          android: androidPlatformChannelSpecifics,
-          iOS: iOSPlatformChannelSpecifics,
-        );
-        await flutterLocalNotificationsPlugin.show(
-          0,
-          "This is title",
-          "Lorem ipsum dolor amit",
-          platformChannelSpecifics,
-          payload: null,
-        );
+      const androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'channel_id',
+        'Push Local Notification',
+        playSound: true,
+        enableVibration: true,
+        importance: Importance.max,
+        priority: Priority.high,
+        color: Colors.deepPurple,
+      );
+      const iOSPlatformChannelSpecifics = DarwinNotificationDetails();
+      const platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics,
+      );
+      await flutterLocalNotificationsPlugin.show(
+        0,
+        "This is title",
+        "Lorem ipsum dolor amit",
+        platformChannelSpecifics,
+        payload: null,
+      );
     } else {
       debugPrint("PushNotificationBloc # permission DENIED or else");
     }
   }
 
+  void _showPushNotificationSound(
+    PushNotificationSoundEvent event,
+    Emitter<PushNotificationState> emit,
+  ) async {
+    final result = await Permission.notification.request();
+    emit(state.copyWith(
+      permissionPushStatus: result,
+    ));
+    if (result == PermissionStatus.granted) {
+      debugPrint("PushNotificationBloc # show push notification SOUND");
+    } else {
+      debugPrint("PushNotificationBloc # permission DENIED or else");
+    }
+  }
 }
