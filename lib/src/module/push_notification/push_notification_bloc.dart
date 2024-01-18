@@ -4,6 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_picker/src/module/push_notification/push_notification_event.dart';
 import 'package:flutter_picker/src/module/push_notification/push_notification_state.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sound_mode/sound_mode.dart';
 
 class PushNotificationBloc
     extends Bloc<PushNotificationEvent, PushNotificationState> {
@@ -28,8 +29,12 @@ class PushNotificationBloc
     );
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
+    // check device
+    final ringerStatus = await SoundMode.ringerModeStatus;
+
     emit(state.copyWith(
       permissionPushStatus: await Permission.notification.status,
+      ringerModeStatus: ringerStatus,
     ));
   }
 
