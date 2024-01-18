@@ -83,7 +83,28 @@ class PushNotificationBloc
       permissionPushStatus: result,
     ));
     if (result == PermissionStatus.granted) {
-      debugPrint("PushNotificationBloc # show push notification SOUND");
+      const androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'channel_id_custom_sound',
+        'Push Local Notification Sound',
+        playSound: true,
+        enableVibration: true,
+        importance: Importance.max,
+        priority: Priority.high,
+        color: Colors.deepPurple,
+        sound: RawResourceAndroidNotificationSound(
+          "announcement_chime_sound_effect",
+        ),
+      );
+      const platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+      );
+      await flutterLocalNotificationsPlugin.show(
+        0,
+        "This is title",
+        "Lorem ipsum dolor amit",
+        platformChannelSpecifics,
+        payload: null,
+      );
     } else {
       debugPrint("PushNotificationBloc # permission DENIED or else");
     }
