@@ -95,8 +95,13 @@ class PushNotificationBloc
           "announcement_chime_sound_effect",
         ),
       );
+      const iOSPlatformChannelSpecifics = DarwinNotificationDetails(
+        presentSound: true,
+        sound: "announcement_chime_sound_effect.wav",
+      );
       const platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics,
       );
       await flutterLocalNotificationsPlugin.show(
         0,
