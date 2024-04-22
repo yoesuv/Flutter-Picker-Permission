@@ -52,7 +52,7 @@ dependencies:
   permission_handler: ^11.3.1
   record: ^5.0.5
   sound_mode: ^3.0.0
-  syncfusion_flutter_datepicker: ^24.1.41
+  syncfusion_flutter_datepicker: ^25.1.40
 
 dev_dependencies:
   flutter_test:
