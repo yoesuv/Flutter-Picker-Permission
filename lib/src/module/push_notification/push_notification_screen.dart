@@ -39,11 +39,21 @@ class _PushNotificationScreenState extends State<PushNotificationScreen> {
             children: [
               _buildPermission(),
               const SizedBox(height: 16),
+              _buildRingerStatus(),
+              const SizedBox(height: 16),
               Center(
                 child: MyButton(
                   title: 'LOCAL NOTIFICATION',
                   onPressed: () {
                     _bloc?.add(PushNotificationLocalEvent());
+                  },
+                ),
+              ),
+              Center(
+                child: MyButton(
+                  title: 'LOCAL NOTIFICATION SOUND',
+                  onPressed: () {
+                    _bloc?.add(PushNotificationSoundEvent());
                   },
                 ),
               ),
@@ -62,6 +72,23 @@ class _PushNotificationScreenState extends State<PushNotificationScreen> {
             prev.permissionPushStatus != current.permissionPushStatus,
         builder: (context, state) => Text(
           'Notification Permission : ${state.permissionPushStatus?.name.toUpperCase()}',
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRingerStatus() {
+    return Center(
+      child: BlocBuilder<PushNotificationBloc, PushNotificationState>(
+        bloc: _bloc,
+        buildWhen: (prev, current) =>
+            prev.ringerModeStatus != current.ringerModeStatus,
+        builder: (context, state) => Text(
+          "Ringer Status : ${state.ringerModeStatus?.name}",
           style: const TextStyle(
             fontSize: 16,
           ),
