@@ -4,10 +4,10 @@ Sample flutter app to handle permission and various picker.
 download apk file [here](https://e.pcloud.link/publink/show?code=XZIQ0MZ7IT15Pndgb7XH1uHbBjAvyBVWHny)  
 
 ```
-Flutter 3.19.5 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision 300451adae (4 weeks ago) • 2024-03-27 21:54:07 -0500
-Engine • revision e76c956498
-Tools • Dart 3.3.3 • DevTools 2.31.1
+Flutter 3.24.5 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision dec2ee5c1f (4 weeks ago) • 2024-11-13 11:13:06 -0800
+Engine • revision a18df97ca5
+Tools • Dart 3.5.4 • DevTools 2.37.3
 ```
 
 #### Screenshot Android ####
@@ -28,8 +28,6 @@ Tools • Dart 3.3.3 • DevTools 2.31.1
 - [File Picker](https://pub.dev/packages/file_picker)
 - [Geolocator](https://pub.dev/packages/geolocator)
 - [Image Picker](https://pub.dev/packages/image_picker)
-- [Image Picker Android](https://pub.dev/packages/image_picker_android)
-- [Image Picker Platform Interface](https://pub.dev/packages/image_picker_platform_interface)
 - [Just Audio](https://pub.dev/packages/just_audio)
 - [Pausable Timer](https://pub.dev/packages/pausable_timer)
 - [Path Provider](https://pub.dev/packages/path_provider)
