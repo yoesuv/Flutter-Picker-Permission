@@ -36,6 +36,9 @@ class _TakeGalleryScreenState extends State<TakeGalleryScreen> {
         title: const Text('Take Gallery'),
       ),
       body: BlocListener<TakeGalleryBloc, TakeGalleryState>(
+        bloc: _bloc,
+        listenWhen: (previous, current) =>
+            previous.permissionStatus != current.permissionStatus,
         listener: (context, state) {
           if (state.permissionStatus != null) {
             if (state.permissionStatus != PermissionStatus.granted) {
@@ -74,6 +77,8 @@ class _TakeGalleryScreenState extends State<TakeGalleryScreen> {
 
   Widget _buildImage() {
     return BlocBuilder<TakeGalleryBloc, TakeGalleryState>(
+      bloc: _bloc,
+      buildWhen: (previous, current) => previous.file != current.file,
       builder: (context, state) {
         return SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -91,6 +96,7 @@ class _TakeGalleryScreenState extends State<TakeGalleryScreen> {
 
   Widget _buildTextPath() {
     return BlocBuilder<TakeGalleryBloc, TakeGalleryState>(
+      bloc: _bloc,
       buildWhen: (previous, current) => previous.path != current.path,
       builder: (context, state) {
         return Text('${state.path}');
