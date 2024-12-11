@@ -37,7 +37,7 @@ class _TakeFileScreenState extends State<TakeFileScreen> {
       body: BlocListener<TakeFileBloc, TakeFileState>(
         bloc: _bloc,
         listenWhen: (previous, current) =>
-        previous.permissionStatus != current.permissionStatus,
+            previous.permissionStatus != current.permissionStatus,
         listener: (context, state) {
           if (state.permissionStatus != null) {
             if (state.permissionStatus != PermissionStatus.granted) {
@@ -67,6 +67,8 @@ class _TakeFileScreenState extends State<TakeFileScreen> {
 
   Widget _buildTextPath() {
     return BlocBuilder<TakeFileBloc, TakeFileState>(
+      bloc: _bloc,
+      buildWhen: (previous, current) => previous.path != current.path,
       builder: (context, state) {
         return Text('${state.path}');
       },
