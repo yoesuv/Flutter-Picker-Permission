@@ -9,8 +9,19 @@ import 'package:flutter_picker/src/module/push_notification/push_notification_sc
 import 'package:flutter_picker/src/module/record_audio/record_audio_screen.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _HomeScreenState();
+  }
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  void _goToScreen(String route) {
+    Navigator.pushNamed(context, route);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,51 +35,35 @@ class HomeScreen extends StatelessWidget {
           children: [
             MyButton(
               title: 'GALLERY',
-              onPressed: () {
-                Navigator.pushNamed(context, TakeGalleryScreen.routeName);
-              },
+              onPressed: () => _goToScreen(TakeGalleryScreen.routeName),
             ),
             MyButton(
               title: 'CAMERA',
-              onPressed: () {
-                Navigator.pushNamed(context, TakeCameraScreen.routeName);
-              },
+              onPressed: () => _goToScreen(TakeCameraScreen.routeName),
             ),
             MyButton(
               title: 'FILE',
-              onPressed: () {
-                Navigator.pushNamed(context, TakeFileScreen.routeName);
-              },
+              onPressed: () => _goToScreen(TakeFileScreen.routeName),
             ),
             MyButton(
               title: 'LOCATION',
-              onPressed: () {
-                Navigator.pushNamed(context, LocationScreen.routeName);
-              },
+              onPressed: () => _goToScreen(LocationScreen.routeName),
             ),
             MyButton(
               title: 'RECORD AUDIO',
-              onPressed: () {
-                Navigator.pushNamed(context, RecordAudioScreen.routeName);
-              },
+              onPressed: () => _goToScreen(RecordAudioScreen.routeName),
             ),
             MyButton(
               title: 'NOTIFICATION',
-              onPressed: () {
-                Navigator.pushNamed(context, PushNotificationScreen.routeName);
-              },
+              onPressed: () => _goToScreen(PushNotificationScreen.routeName),
             ),
             MyButton(
               title: 'DOWNLOAD FILE',
-              onPressed: () {
-                Navigator.pushNamed(context, DownloadFileScreen.routeName);
-              },
+              onPressed: () => _goToScreen(DownloadFileScreen.routeName),
             ),
             MyButton(
               title: 'DATE TIME',
-              onPressed: () {
-                Navigator.pushNamed(context, DateTimeScreen.routeName);
-              },
+              onPressed: () => _goToScreen(DateTimeScreen.routeName),
             ),
           ],
         ),
