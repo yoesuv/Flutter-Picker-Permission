@@ -26,7 +26,6 @@ android {
 
     namespace "com.yoesuv.flutter_picker"
     compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
 
     compileOptions {
         coreLibraryDesugaringEnabled true
