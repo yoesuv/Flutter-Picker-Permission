@@ -157,7 +157,7 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
       builder: (context, state) {
         final time = state.selectedTime;
         return Text(
-          "Selected Time : $time",
+          "Selected Time : ${time?.format(context)}",
           style: const TextStyle(
             fontSize: 16,
           ),

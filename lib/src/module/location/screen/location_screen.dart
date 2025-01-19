@@ -36,6 +36,9 @@ class _LocationScreenState extends State<LocationScreen> {
       ),
       body: BlocListener<LocationBloc, LocationState>(
         bloc: _bloc,
+        listenWhen: (previous, current) =>
+            previous.permissionStatus != current.permissionStatus ||
+            previous.locationService != current.locationService,
         listener: (context, state) {
           if (state.permissionStatus != null) {
             if (state.permissionStatus != PermissionStatus.granted) {
@@ -92,18 +95,13 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   Widget _buildButton() {
-    return BlocBuilder<LocationBloc, LocationState>(
-      bloc: _bloc,
-      builder: (context, state) {
-        return Center(
-          child: MyButton(
-            title: 'GET LOCATION',
-            onPressed: () {
-              _bloc.add(GetLocationEvent());
-            },
-          ),
-        );
-      },
+    return Center(
+      child: MyButton(
+        title: 'GET LOCATION',
+        onPressed: () {
+          _bloc.add(GetLocationEvent());
+        },
+      ),
     );
   }
 }

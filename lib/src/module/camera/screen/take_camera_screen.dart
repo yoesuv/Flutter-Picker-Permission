@@ -68,6 +68,8 @@ class _TakeCameraScreenState extends State<TakeCameraScreen> {
 
   Widget _buildImage() {
     return BlocBuilder<TakeCameraBloc, TakeCameraState>(
+      bloc: _bloc,
+      buildWhen: (previous, current) => previous.file != current.file,
       builder: (context, state) {
         return SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -85,6 +87,7 @@ class _TakeCameraScreenState extends State<TakeCameraScreen> {
 
   Widget _buildTextPath() {
     return BlocBuilder<TakeCameraBloc, TakeCameraState>(
+      bloc: _bloc,
       buildWhen: (previous, current) => previous.path != current.path,
       builder: (context, state) {
         return Text('${state.path}');

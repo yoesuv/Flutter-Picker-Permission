@@ -98,6 +98,8 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
     return Center(
       child: BlocBuilder<RecordAudioBloc, RecordAudioState>(
         bloc: _bloc,
+        buildWhen: (previous, current) =>
+            previous.recordingState != current.recordingState,
         builder: (context, state) {
           return Column(
             children: [
