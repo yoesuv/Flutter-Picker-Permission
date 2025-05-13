@@ -22,6 +22,9 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+println("flutter compileSdkVersion: ${flutter.compileSdkVersion}")
+println("flutter targetSdkVersion: ${flutter.targetSdkVersion}")
+
 android {
 
     namespace "com.yoesuv.flutter_picker"
