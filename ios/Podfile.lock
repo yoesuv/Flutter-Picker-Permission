@@ -50,6 +50,7 @@ PODS:
     - Flutter
   - just_audio (0.0.1):
     - Flutter
+    - FlutterMacOS
   - Mute (0.6.1)
   - path_provider_foundation (0.0.1):
     - Flutter
@@ -76,7 +77,7 @@ DEPENDENCIES:
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
-  - just_audio (from `.symlinks/plugins/just_audio/ios`)
+  - just_audio (from `.symlinks/plugins/just_audio/darwin`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - record_darwin (from `.symlinks/plugins/record_darwin/ios`)
@@ -110,7 +111,7 @@ EXTERNAL SOURCES:
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   just_audio:
-    :path: ".symlinks/plugins/just_audio/ios"
+    :path: ".symlinks/plugins/just_audio/darwin"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
@@ -122,7 +123,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   app_settings: 5127ae0678de1dcc19f2293271c51d37c89428b2
-  audio_session: f08db0697111ac84ba46191b55488c0563bb29c6
+  audio_session: 9bb7f6c970f21241b19f5a3658097ae459681ba0
   device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
@@ -132,7 +133,7 @@ SPEC CHECKSUMS:
   flutter_local_notifications: a5a732f069baa862e728d839dd2ebb904737effb
   geolocator_apple: 1560c3c875af2a412242c7a923e15d0d401966ff
   image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
-  just_audio: 6c031bb61297cf218b4462be616638e81c058e97
+  just_audio: 4e391f57b79cad2b0674030a00453ca5ce817eed
   Mute: 20135a96076f140cc82bfc8b810e2d6150d8ec7e
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
