@@ -29,9 +29,7 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Date Time'),
-      ),
+      appBar: AppBar(title: const Text('Date Time')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -65,9 +63,7 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
         final year = date?.year;
         return Text(
           "Selected Date : $day/$month/$year",
-          style: const TextStyle(
-            fontSize: 16,
-          ),
+          style: const TextStyle(fontSize: 16),
         );
       },
     );
@@ -102,6 +98,7 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
         onPressed: () {
           showModalBottomSheet(
             context: context,
+            useSafeArea: true,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(8),
@@ -109,39 +106,44 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
               ),
             ),
             builder: (context) {
-              return SfDateRangePicker(
-                headerHeight: 60,
-                headerStyle: const DateRangePickerHeaderStyle(
-                  textStyle: TextStyle(
-                    color: Colors.deepPurple,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: 50,
                 ),
-                monthViewSettings: const DateRangePickerMonthViewSettings(
-                  viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                child: SfDateRangePicker(
+                  headerHeight: 60,
+                  headerStyle: const DateRangePickerHeaderStyle(
                     textStyle: TextStyle(
-                      fontSize: 16,
+                      color: Colors.deepPurple,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  monthViewSettings: const DateRangePickerMonthViewSettings(
+                    viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                      textStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  selectionMode: DateRangePickerSelectionMode.single,
+                  showNavigationArrow: true,
+                  showActionButtons: true,
+                  selectionRadius: 20,
+                  selectionTextStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  onCancel: () => Navigator.pop(context),
+                  onSubmit: (value) {
+                    if (value != null) {
+                      final theDate = value as DateTime;
+                      _bloc?.add(DateTimeSetDateEvent(dateTime: theDate));
+                    }
+                    Navigator.pop(context);
+                  },
                 ),
-                selectionMode: DateRangePickerSelectionMode.single,
-                showNavigationArrow: true,
-                showActionButtons: true,
-                selectionRadius: 20,
-                selectionTextStyle: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-                onCancel: () => Navigator.pop(context),
-                onSubmit: (value) {
-                  if (value != null) {
-                    final theDate = value as DateTime;
-                    _bloc?.add(DateTimeSetDateEvent(dateTime: theDate));
-                  }
-                  Navigator.pop(context);
-                },
               );
             },
           );
@@ -158,9 +160,7 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
         final time = state.selectedTime;
         return Text(
           "Selected Time : ${time?.format(context)}",
-          style: const TextStyle(
-            fontSize: 16,
-          ),
+          style: const TextStyle(fontSize: 16),
         );
       },
     );
@@ -178,9 +178,9 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
             builder: (context, Widget? theChild) {
               if (theChild != null) {
                 return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(
-                    alwaysUse24HourFormat: true,
-                  ),
+                  data: MediaQuery.of(
+                    context,
+                  ).copyWith(alwaysUse24HourFormat: true),
                   child: theChild,
                 );
               }
