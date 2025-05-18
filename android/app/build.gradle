@@ -71,7 +71,7 @@ android {
                     if (variant.name == "debug") {
                         outputFileName = "$appName-(v${version})-${sdkConfig}-${variant.name}.apk"
                     } else {
-                        outputFileName = "../../../../../$appName-(v${version})-${sdkConfig}-${variant.name}.apk"
+                        //outputFileName = "../../../../../$appName-(v${version})-${sdkConfig}-${variant.name}.apk"
                     }
                 }
             }
