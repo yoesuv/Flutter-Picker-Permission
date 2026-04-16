@@ -1,12 +1,12 @@
 ## Flutter Picker & Permission
 
-Sample flutter app to handle permission and various picker.
+Flutter app demonstrating permissions, pickers, audio, and location features.
 
 ```
-Flutter 3.29.3 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision ea121f8859 (4 weeks ago) • 2025-04-11 19:10:07 +0000
-Engine • revision cf56914b32
-Tools • Dart 3.7.2 • DevTools 2.42.3
+Flutter 3.41.6 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision db50e20168 (3 weeks ago) • 2026-03-25 16:21:00 -0700
+Engine • revision 5cdd32777948fa7a648fac915f8da7120ac7e97a
+Tools • Dart 3.11.4 • DevTools 2.54.2
 ```
 
 #### Screenshot Android

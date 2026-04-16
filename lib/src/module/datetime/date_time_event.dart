@@ -15,7 +15,7 @@ class DateTimeSetDateEvent extends DateTimeEvent {
   List<Object?> get props => [dateTime];
 }
 
-class DateTimeSetTimeEvent extends DateTimeInitEvent {
+class DateTimeSetTimeEvent extends DateTimeEvent {
   DateTimeSetTimeEvent({this.timeOfDay});
   final TimeOfDay? timeOfDay;
   @override

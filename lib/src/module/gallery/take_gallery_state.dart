@@ -8,27 +8,18 @@ class TakeGalleryState extends Equatable {
   final File? file;
   final PermissionStatus? permissionStatus;
 
-  const TakeGalleryState({
-    this.path = '',
-    this.file,
-    this.permissionStatus,
-  });
+  const TakeGalleryState({this.path = '', this.file, this.permissionStatus});
 
   TakeGalleryState copyWith({
     String? path,
     File? file,
     PermissionStatus? permissionStatus,
-  }) =>
-      TakeGalleryState(
-        path: path ?? this.path,
-        file: file ?? this.file,
-        permissionStatus: permissionStatus,
-      );
+  }) => TakeGalleryState(
+    path: path ?? this.path,
+    file: file ?? this.file,
+    permissionStatus: permissionStatus,
+  );
 
   @override
-  List<Object?> get props => [
-        path,
-        file,
-        permissionStatus,
-      ];
+  List<Object?> get props => [path, file, permissionStatus];
 }

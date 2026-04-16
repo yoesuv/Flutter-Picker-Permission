@@ -22,8 +22,5 @@ class PushNotificationState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-        permissionPushStatus,
-        ringerModeStatus,
-      ];
+  List<Object?> get props => [permissionPushStatus, ringerModeStatus];
 }

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_picker/src/module/camera/event/take_camera_event.dart';
-import 'package:flutter_picker/src/module/camera/state/take_camera_state.dart';
+import 'package:flutter_picker/src/module/camera/take_camera_event.dart';
+import 'package:flutter_picker/src/module/camera/take_camera_state.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -33,11 +33,9 @@ class TakeCameraBloc extends Bloc<TakeCameraEvent, TakeCameraState> {
     const camera = ImageSource.camera;
     final pickedImage = await ImagePicker().pickImage(source: camera);
     if (pickedImage != null) {
-      emit(state.copyWith(
-        path: pickedImage.path,
-        file: File(pickedImage.path),
-      ));
+      emit(
+        state.copyWith(path: pickedImage.path, file: File(pickedImage.path)),
+      );
     }
   }
-
 }

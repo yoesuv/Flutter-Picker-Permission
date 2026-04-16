@@ -7,17 +7,11 @@ abstract class PlayerAudioEvent extends Equatable {
 }
 
 class PlayerAudioInitEvent extends PlayerAudioEvent {
-  PlayerAudioInitEvent({
-    this.path,
-    this.player,
-  });
+  PlayerAudioInitEvent({this.path, this.player});
   final String? path;
   final AudioPlayer? player;
   @override
-  List<Object?> get props => [
-        path,
-        player,
-      ];
+  List<Object?> get props => [path, player];
 }
 
 class PlayerAudioPlayerStateEvent extends PlayerAudioEvent {

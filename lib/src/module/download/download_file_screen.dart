@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_picker/src/module/download/download_file_bloc.dart';
 import 'package:flutter_picker/src/module/download/download_file_event.dart';
 import 'package:flutter_picker/src/module/download/download_file_state.dart';
+import 'package:flutter_picker/src/utils/app_util.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DownloadFileScreen extends StatefulWidget {
   static const routeName = 'download_file';
@@ -30,19 +32,31 @@ class _DownloadFileScreenState extends State<DownloadFileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Download File'),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildProgress(),
-              const SizedBox(height: 8),
-              _buildButton(),
-            ],
+      appBar: AppBar(title: const Text('Download File')),
+      body: BlocListener<DownloadFileBloc, DownloadFileState>(
+        bloc: _bloc,
+        listenWhen: (previous, current) =>
+            previous.permissionStatus != current.permissionStatus,
+        listener: (context, state) {
+          if (state.permissionStatus != null &&
+              state.permissionStatus != PermissionStatus.granted) {
+            showErrorSnackBar(
+              context,
+              'Permission ${state.permissionStatus?.name}',
+            );
+          }
+        },
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildProgress(),
+                const SizedBox(height: 8),
+                _buildButton(),
+              ],
+            ),
           ),
         ),
       ),
@@ -58,10 +72,7 @@ class _DownloadFileScreenState extends State<DownloadFileScreen> {
             prev.downloadTaskStatus != current.downloadTaskStatus,
         builder: (context, state) => Text(
           '${state.downloadTaskStatus.name} ${state.progress}%',
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
     );

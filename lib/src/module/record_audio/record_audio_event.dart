@@ -19,10 +19,7 @@ class RecordAudioStateEvent extends RecordAudioEvent {
   final PausableTimer? timer;
 
   @override
-  List<Object?> get props => [
-        recordingState,
-        timer,
-      ];
+  List<Object?> get props => [recordingState, timer];
 }
 
 class RecordAudioTimerEvent extends RecordAudioEvent {}

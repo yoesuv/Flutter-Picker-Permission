@@ -37,9 +37,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Record Audio'),
-      ),
+      appBar: AppBar(title: const Text('Record Audio')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -72,9 +70,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
           prev.recordingState != current.recordingState,
       builder: (context, state) => Text(
         'Is Recording : ${state.recordingState.name}',
-        style: const TextStyle(
-          fontSize: 16,
-        ),
+        style: const TextStyle(fontSize: 16),
       ),
     );
   }
@@ -86,10 +82,7 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
       builder: (context, state) => Text(
         '${'${state.startTime?.minute ?? '00'}'.padLeft(2, '0')}:'
         '${'${state.startTime?.second ?? '00'}'.padLeft(2, '0')}',
-        style: const TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-        ),
+        style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
       ),
     );
   }

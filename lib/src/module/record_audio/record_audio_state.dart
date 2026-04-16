@@ -2,13 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-enum RecordingState {
-  start,
-  recording,
-  pause,
-  resume,
-  stop,
-}
+enum RecordingState { start, recording, pause, resume, stop }
 
 class RecordAudioState extends Equatable {
   final RecordingState recordingState;
@@ -59,14 +53,14 @@ class RecordAudioState extends Equatable {
 
   @override
   List<Object?> get props => [
-        recordingState,
-        permissionMicStatus,
-        isReadyToPlay,
-        path,
-        playerState,
-        buttonTitle,
-        duration,
-        strDuration,
-        startTime,
-      ];
+    recordingState,
+    permissionMicStatus,
+    isReadyToPlay,
+    path,
+    playerState,
+    buttonTitle,
+    duration,
+    strDuration,
+    startTime,
+  ];
 }

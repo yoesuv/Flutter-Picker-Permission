@@ -19,16 +19,15 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     on<RecordAudioTimerEvent>(_onTimer);
   }
 
-  void _onInit(
-    RecordAudioInitEvent event,
-    Emitter<RecordAudioState> emit,
-  ) {
-    emit(state.copyWith(
-      recordingState: RecordingState.start,
-      isReadyToPlay: false,
-      buttonTitle: 'START',
-      startTime: DateTime.utc(0),
-    ));
+  void _onInit(RecordAudioInitEvent event, Emitter<RecordAudioState> emit) {
+    emit(
+      state.copyWith(
+        recordingState: RecordingState.start,
+        isReadyToPlay: false,
+        buttonTitle: 'START',
+        startTime: DateTime.utc(0),
+      ),
+    );
   }
 
   void _onRecording(
@@ -73,10 +72,12 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
         bool isRecording = await record.isRecording();
         if (isRecording) {
           await record.pause();
-          emit(state.copyWith(
-            recordingState: RecordingState.pause,
-            buttonTitle: 'RESUME',
-          ));
+          emit(
+            state.copyWith(
+              recordingState: RecordingState.pause,
+              buttonTitle: 'RESUME',
+            ),
+          );
         }
         break;
       case RecordingState.resume:
@@ -84,10 +85,12 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
         bool isRecording = await record.isRecording();
         if (isRecording) {
           await record.resume();
-          emit(state.copyWith(
-            recordingState: RecordingState.recording,
-            buttonTitle: 'PAUSE',
-          ));
+          emit(
+            state.copyWith(
+              recordingState: RecordingState.recording,
+              buttonTitle: 'PAUSE',
+            ),
+          );
         }
         break;
       case RecordingState.stop:
@@ -96,25 +99,22 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
         if (isRecording) {
           final theFile = await record.stop();
           debugPrint('RecordAudioBloc # stop recording -> final $theFile');
-          emit(state.copyWith(
-            recordingState: RecordingState.stop,
-            isReadyToPlay: true,
-            path: theFile,
-            buttonTitle: 'START',
-          ));
+          emit(
+            state.copyWith(
+              recordingState: RecordingState.stop,
+              isReadyToPlay: true,
+              path: theFile,
+              buttonTitle: 'START',
+            ),
+          );
         }
         break;
     }
   }
 
-  void _onTimer(
-    RecordAudioTimerEvent event,
-    Emitter<RecordAudioState> emit,
-  ) {
+  void _onTimer(RecordAudioTimerEvent event, Emitter<RecordAudioState> emit) {
     final time = state.startTime ?? DateTime.utc(0);
-    emit(state.copyWith(
-      startTime: time.add(timerDuration),
-    ));
+    emit(state.copyWith(startTime: time.add(timerDuration)));
   }
 
   Future<void> _checkPermissionAndroidIos(
@@ -122,16 +122,12 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     PausableTimer? timer,
   ) async {
     final checkMicStatus = await Permission.microphone.status;
-    emit(state.copyWith(
-      permissionMicStatus: checkMicStatus,
-    ));
+    emit(state.copyWith(permissionMicStatus: checkMicStatus));
     if (checkMicStatus == PermissionStatus.granted) {
       await _startRecording(emit, timer);
     } else {
       final request = await Permission.microphone.request();
-      emit(state.copyWith(
-        permissionMicStatus: request,
-      ));
+      emit(state.copyWith(permissionMicStatus: request));
       if (request == PermissionStatus.granted) {
         await _startRecording(emit, timer);
       }
@@ -142,9 +138,7 @@ class RecordAudioBloc extends Bloc<RecordAudioEvent, RecordAudioState> {
     Emitter<RecordAudioState> emit,
     PausableTimer? timer,
   ) async {
-    emit(state.copyWith(
-      startTime: DateTime.utc(0),
-    ));
+    emit(state.copyWith(startTime: DateTime.utc(0)));
     timer?.start();
     emit(
       state.copyWith(

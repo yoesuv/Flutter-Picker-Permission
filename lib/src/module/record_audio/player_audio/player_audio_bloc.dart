@@ -17,17 +17,21 @@ class PlayerAudioBloc extends Bloc<PlayerAudioEvent, PlayerAudioState> {
       await event.player?.setFilePath(event.path ?? '');
       await event.player?.stop();
       final duration = event.player?.duration;
-      emit(state.copyWith(
-        path: event.path,
-        playerState: PlayerState(false, ProcessingState.idle),
-        strDuration: duration?.toString().substring(2,10),
-      ));
+      emit(
+        state.copyWith(
+          path: event.path,
+          playerState: PlayerState(false, ProcessingState.idle),
+          strDuration: duration?.toString().substring(2, 10),
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        path: event.path,
-        playerState: PlayerState(false, ProcessingState.idle),
-        strDuration: 'FAILED',
-      ));
+      emit(
+        state.copyWith(
+          path: event.path,
+          playerState: PlayerState(false, ProcessingState.idle),
+          strDuration: 'FAILED',
+        ),
+      );
     }
   }
 
@@ -35,8 +39,6 @@ class PlayerAudioBloc extends Bloc<PlayerAudioEvent, PlayerAudioState> {
     PlayerAudioPlayerStateEvent event,
     Emitter<PlayerAudioState> emit,
   ) {
-    emit(state.copyWith(
-      playerState: event.playerState,
-    ));
+    emit(state.copyWith(playerState: event.playerState));
   }
 }

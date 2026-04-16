@@ -27,6 +27,7 @@ println("flutter targetSdkVersion: ${flutter.targetSdkVersion}")
 
 android {
 
+    ndkVersion = flutter.ndkVersion
     namespace "com.yoesuv.flutter_picker"
     compileSdkVersion flutter.compileSdkVersion
 

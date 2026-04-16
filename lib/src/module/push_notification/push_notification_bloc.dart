@@ -21,22 +21,27 @@ class PushNotificationBloc
     Emitter<PushNotificationState> emit,
   ) async {
     // setup notifications
-    const initializationSettingsAndroid =
-        AndroidInitializationSettings('ic_notification');
+    const initializationSettingsAndroid = AndroidInitializationSettings(
+      'ic_notification',
+    );
     const initializationSettingsIOS = DarwinInitializationSettings();
     const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    flutterLocalNotificationsPlugin.initialize(
+      settings: initializationSettings,
+    );
 
     // check device
     final ringerStatus = await SoundMode.ringerModeStatus;
 
-    emit(state.copyWith(
-      permissionPushStatus: await Permission.notification.status,
-      ringerModeStatus: ringerStatus,
-    ));
+    emit(
+      state.copyWith(
+        permissionPushStatus: await Permission.notification.status,
+        ringerModeStatus: ringerStatus,
+      ),
+    );
   }
 
   void _showPushNotificationLocal(
@@ -44,9 +49,7 @@ class PushNotificationBloc
     Emitter<PushNotificationState> emit,
   ) async {
     final result = await Permission.notification.request();
-    emit(state.copyWith(
-      permissionPushStatus: result,
-    ));
+    emit(state.copyWith(permissionPushStatus: result));
     if (result == PermissionStatus.granted) {
       const androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'channel_id',
@@ -58,16 +61,15 @@ class PushNotificationBloc
         color: Colors.deepPurple,
       );
       const iOSPlatformChannelSpecifics = DarwinNotificationDetails();
-      const platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics,
-      );
       await flutterLocalNotificationsPlugin.show(
-        0,
-        "This is title",
-        "Lorem ipsum dolor amit",
-        platformChannelSpecifics,
+        id: 0,
+        title: "This is title",
+        body: "Lorem ipsum dolor amit",
         payload: null,
+        notificationDetails: NotificationDetails(
+          android: androidPlatformChannelSpecifics,
+          iOS: iOSPlatformChannelSpecifics,
+        ),
       );
     } else {
       debugPrint("PushNotificationBloc # permission DENIED or else");
@@ -79,9 +81,7 @@ class PushNotificationBloc
     Emitter<PushNotificationState> emit,
   ) async {
     final result = await Permission.notification.request();
-    emit(state.copyWith(
-      permissionPushStatus: result,
-    ));
+    emit(state.copyWith(permissionPushStatus: result));
     if (result == PermissionStatus.granted) {
       const androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'channel_id_custom_sound',
@@ -99,16 +99,15 @@ class PushNotificationBloc
         presentSound: true,
         sound: "announcement_chime_sound_effect.wav",
       );
-      const platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics,
-      );
       await flutterLocalNotificationsPlugin.show(
-        0,
-        "This is title",
-        "Lorem ipsum dolor amit",
-        platformChannelSpecifics,
+        id: 0,
+        title: "This is title",
+        body: "Lorem ipsum dolor amit",
         payload: null,
+        notificationDetails: NotificationDetails(
+          android: androidPlatformChannelSpecifics,
+          iOS: iOSPlatformChannelSpecifics,
+        ),
       );
     } else {
       debugPrint("PushNotificationBloc # permission DENIED or else");
