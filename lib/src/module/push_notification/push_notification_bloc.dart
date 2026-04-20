@@ -9,6 +9,7 @@ import 'package:sound_mode/sound_mode.dart';
 class PushNotificationBloc
     extends Bloc<PushNotificationEvent, PushNotificationState> {
   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  int _notificationId = 0;
 
   PushNotificationBloc() : super(const PushNotificationState()) {
     on<PushNotificationInitEvent>(_init);
@@ -20,28 +21,32 @@ class PushNotificationBloc
     PushNotificationInitEvent event,
     Emitter<PushNotificationState> emit,
   ) async {
-    // setup notifications
-    const initializationSettingsAndroid = AndroidInitializationSettings(
-      'ic_notification',
-    );
-    const initializationSettingsIOS = DarwinInitializationSettings();
-    const initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
-    flutterLocalNotificationsPlugin.initialize(
-      settings: initializationSettings,
-    );
+    try {
+      // setup notifications
+      const initializationSettingsAndroid = AndroidInitializationSettings(
+        'ic_notification',
+      );
+      const initializationSettingsIOS = DarwinInitializationSettings();
+      const initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsIOS,
+      );
+      await flutterLocalNotificationsPlugin.initialize(
+        settings: initializationSettings,
+      );
 
-    // check device
-    final ringerStatus = await SoundMode.ringerModeStatus;
+      // check device
+      final ringerStatus = await SoundMode.ringerModeStatus;
 
-    emit(
-      state.copyWith(
-        permissionPushStatus: await Permission.notification.status,
-        ringerModeStatus: ringerStatus,
-      ),
-    );
+      emit(
+        state.copyWith(
+          permissionPushStatus: await Permission.notification.status,
+          ringerModeStatus: ringerStatus,
+        ),
+      );
+    } catch (e) {
+      debugPrint('PushNotificationBloc # init error: $e');
+    }
   }
 
   void _showPushNotificationLocal(
@@ -62,7 +67,7 @@ class PushNotificationBloc
       );
       const iOSPlatformChannelSpecifics = DarwinNotificationDetails();
       await flutterLocalNotificationsPlugin.show(
-        id: 0,
+        id: _notificationId++,
         title: "This is title",
         body: "Lorem ipsum dolor amit",
         payload: null,
@@ -100,9 +105,9 @@ class PushNotificationBloc
         sound: "announcement_chime_sound_effect.wav",
       );
       await flutterLocalNotificationsPlugin.show(
-        id: 0,
-        title: "This is title",
-        body: "Lorem ipsum dolor amit",
+        id: _notificationId++,
+        title: "This is title custom sound",
+        body: "Lorem ipsum dolor amit custom sound",
         payload: null,
         notificationDetails: NotificationDetails(
           android: androidPlatformChannelSpecifics,
