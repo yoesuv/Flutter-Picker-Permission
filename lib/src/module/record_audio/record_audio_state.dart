@@ -1,50 +1,45 @@
 import 'package:equatable/equatable.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-enum RecordingState { start, recording, pause, resume, stop }
+/// Actions that the user can trigger
+enum RecordingAction { start, pause, resume, stop }
+
+/// Current recording status of the system
+enum RecordingStatus { idle, recording, paused }
 
 class RecordAudioState extends Equatable {
-  final RecordingState recordingState;
+  final RecordingStatus status;
   final PermissionStatus? permissionMicStatus;
   final bool isReadyToPlay;
   final String path;
-  final PlayerState? playerState;
-  final String buttonTitle;
   final Duration? duration;
   final String strDuration;
   final DateTime? startTime;
 
   const RecordAudioState({
-    this.recordingState = RecordingState.start,
+    this.status = RecordingStatus.idle,
     this.permissionMicStatus,
     this.isReadyToPlay = false,
     this.path = '',
-    this.playerState,
-    this.buttonTitle = 'START',
     this.duration,
     this.strDuration = '',
     this.startTime,
   });
 
   RecordAudioState copyWith({
-    RecordingState? recordingState,
+    RecordingStatus? status,
     PermissionStatus? permissionMicStatus,
     bool? isReadyToPlay,
     String? path,
-    PlayerState? playerState,
-    String? buttonTitle,
     Duration? duration,
     String? strDuration,
     DateTime? startTime,
   }) {
     return RecordAudioState(
-      recordingState: recordingState ?? this.recordingState,
+      status: status ?? this.status,
       permissionMicStatus: permissionMicStatus ?? this.permissionMicStatus,
       isReadyToPlay: isReadyToPlay ?? this.isReadyToPlay,
       path: path ?? this.path,
-      playerState: playerState ?? this.playerState,
-      buttonTitle: buttonTitle ?? this.buttonTitle,
       duration: duration ?? this.duration,
       strDuration: strDuration ?? this.strDuration,
       startTime: startTime ?? this.startTime,
@@ -53,12 +48,10 @@ class RecordAudioState extends Equatable {
 
   @override
   List<Object?> get props => [
-    recordingState,
+    status,
     permissionMicStatus,
     isReadyToPlay,
     path,
-    playerState,
-    buttonTitle,
     duration,
     strDuration,
     startTime,

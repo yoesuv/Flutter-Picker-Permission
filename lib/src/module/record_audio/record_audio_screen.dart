@@ -35,6 +35,12 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
   }
 
   @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Record Audio')),
@@ -57,19 +63,12 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    timer?.cancel();
-  }
-
   Widget _labelStatus() {
     return BlocBuilder<RecordAudioBloc, RecordAudioState>(
       bloc: _bloc,
-      buildWhen: (prev, current) =>
-          prev.recordingState != current.recordingState,
+      buildWhen: (prev, current) => prev.status != current.status,
       builder: (context, state) => Text(
-        'Is Recording : ${state.recordingState.name}',
+        'Is Recording : ${state.status.name}',
         style: const TextStyle(fontSize: 16),
       ),
     );
@@ -91,75 +90,71 @@ class _RecordAudioScreenState extends State<RecordAudioScreen> {
     return Center(
       child: BlocBuilder<RecordAudioBloc, RecordAudioState>(
         bloc: _bloc,
-        buildWhen: (previous, current) =>
-            previous.recordingState != current.recordingState,
+        buildWhen: (previous, current) => previous.status != current.status,
         builder: (context, state) {
           return Column(
             children: [
               MyButton(
-                title: state.buttonTitle,
+                title: _getButtonTitle(state.status),
                 onPressed: () {
-                  switch (state.recordingState) {
-                    case RecordingState.start:
-                      _bloc?.add(
-                        RecordAudioStateEvent(
-                          recordingState: RecordingState.start,
-                          timer: timer,
-                        ),
-                      );
-                      break;
-                    case RecordingState.recording:
-                      _bloc?.add(
-                        RecordAudioStateEvent(
-                          recordingState: RecordingState.pause,
-                          timer: timer,
-                        ),
-                      );
-                      break;
-                    case RecordingState.pause:
-                      _bloc?.add(
-                        RecordAudioStateEvent(
-                          recordingState: RecordingState.resume,
-                          timer: timer,
-                        ),
-                      );
-                      break;
-                    case RecordingState.resume:
-                      _bloc?.add(
-                        RecordAudioStateEvent(
-                          recordingState: RecordingState.resume,
-                          timer: timer,
-                        ),
-                      );
-                      break;
-                    case RecordingState.stop:
-                      _bloc?.add(
-                        RecordAudioStateEvent(
-                          recordingState: RecordingState.start,
-                          timer: timer,
-                        ),
-                      );
-                      break;
-                  }
+                  _handleMainButtonPress(state.status);
                 },
               ),
-              const SizedBox(height: 8),
-              MyButton(
-                title: 'STOP',
-                onPressed: () {
-                  _bloc?.add(
-                    RecordAudioStateEvent(
-                      recordingState: RecordingState.stop,
-                      timer: timer,
-                    ),
-                  );
-                },
-              ),
+              if (_showStopButton(state.status)) ...[
+                const SizedBox(height: 8),
+                MyButton(
+                  title: 'STOP',
+                  onPressed: () {
+                    _bloc?.add(
+                      RecordAudioActionEvent(
+                        action: RecordingAction.stop,
+                        timer: timer,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ],
           );
         },
       ),
     );
+  }
+
+  String _getButtonTitle(RecordingStatus status) {
+    switch (status) {
+      case RecordingStatus.idle:
+        return 'START';
+      case RecordingStatus.recording:
+        return 'PAUSE';
+      case RecordingStatus.paused:
+        return 'RESUME';
+    }
+  }
+
+  bool _showStopButton(RecordingStatus status) {
+    return status == RecordingStatus.recording ||
+        status == RecordingStatus.paused;
+  }
+
+  void _handleMainButtonPress(RecordingStatus status) {
+    switch (status) {
+      case RecordingStatus.idle:
+        _bloc?.add(
+          RecordAudioActionEvent(action: RecordingAction.start, timer: timer),
+        );
+        break;
+      case RecordingStatus.recording:
+        _bloc?.add(
+          RecordAudioActionEvent(action: RecordingAction.pause, timer: timer),
+        );
+        break;
+      case RecordingStatus.paused:
+        _bloc?.add(
+          RecordAudioActionEvent(action: RecordingAction.resume, timer: timer),
+        );
+        break;
+    }
   }
 
   Widget _buildPlayer() {
