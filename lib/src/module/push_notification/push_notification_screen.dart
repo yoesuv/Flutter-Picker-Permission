@@ -28,9 +28,7 @@ class _PushNotificationScreenState extends State<PushNotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Push Notification'),
-      ),
+      appBar: AppBar(title: const Text('Push Notification')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -72,9 +70,7 @@ class _PushNotificationScreenState extends State<PushNotificationScreen> {
             prev.permissionPushStatus != current.permissionPushStatus,
         builder: (context, state) => Text(
           'Notification Permission : ${state.permissionPushStatus?.name.toUpperCase()}',
-          style: const TextStyle(
-            fontSize: 16,
-          ),
+          style: const TextStyle(fontSize: 16),
           textAlign: TextAlign.center,
         ),
       ),
@@ -89,9 +85,7 @@ class _PushNotificationScreenState extends State<PushNotificationScreen> {
             prev.ringerModeStatus != current.ringerModeStatus,
         builder: (context, state) => Text(
           "Ringer Status : ${state.ringerModeStatus?.name}",
-          style: const TextStyle(
-            fontSize: 16,
-          ),
+          style: const TextStyle(fontSize: 16),
           textAlign: TextAlign.center,
         ),
       ),

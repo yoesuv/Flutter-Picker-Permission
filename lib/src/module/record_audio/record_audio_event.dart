@@ -9,20 +9,14 @@ abstract class RecordAudioEvent extends Equatable {
 
 class RecordAudioInitEvent extends RecordAudioEvent {}
 
-class RecordAudioStateEvent extends RecordAudioEvent {
-  RecordAudioStateEvent({
-    this.recordingState = RecordingState.start,
-    this.timer,
-  });
+class RecordAudioActionEvent extends RecordAudioEvent {
+  RecordAudioActionEvent({required this.action, this.timer});
 
-  final RecordingState recordingState;
+  final RecordingAction action;
   final PausableTimer? timer;
 
   @override
-  List<Object?> get props => [
-        recordingState,
-        timer,
-      ];
+  List<Object?> get props => [action, timer];
 }
 
 class RecordAudioTimerEvent extends RecordAudioEvent {}

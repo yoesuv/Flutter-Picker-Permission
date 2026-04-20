@@ -2,11 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:just_audio/just_audio.dart';
 
 class PlayerAudioState extends Equatable {
-  const PlayerAudioState({
-    this.path,
-    this.playerState,
-    this.strDuration = '',
-  });
+  const PlayerAudioState({this.path, this.playerState, this.strDuration = ''});
 
   final String? path;
   final PlayerState? playerState;
@@ -25,9 +21,5 @@ class PlayerAudioState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-        path,
-        playerState,
-        strDuration,
-      ];
+  List<Object?> get props => [path, playerState, strDuration];
 }

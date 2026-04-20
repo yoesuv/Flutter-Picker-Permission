@@ -17,13 +17,13 @@ class DateTimeScreen extends StatefulWidget {
 }
 
 class _DateTimeScreenState extends State<DateTimeScreen> {
-  DateTimeBloc? _bloc;
+  late DateTimeBloc _bloc;
 
   @override
   void initState() {
     super.initState();
     _bloc = context.read<DateTimeBloc>();
-    _bloc?.add(DateTimeInitEvent());
+    _bloc.add(DateTimeInitEvent());
   }
 
   @override
@@ -84,7 +84,7 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
             initialEntryMode: DatePickerEntryMode.calendar,
           );
           if (theDate != null) {
-            _bloc?.add(DateTimeSetDateEvent(dateTime: theDate));
+            _bloc.add(DateTimeSetDateEvent(dateTime: theDate));
           }
         },
       ),
@@ -106,44 +106,39 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
               ),
             ),
             builder: (context) {
-              return Padding(
-                padding: EdgeInsets.only(
-                  bottom: 50,
+              return SfDateRangePicker(
+                headerHeight: 60,
+                headerStyle: const DateRangePickerHeaderStyle(
+                  textStyle: TextStyle(
+                    color: Colors.deepPurple,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                child: SfDateRangePicker(
-                  headerHeight: 60,
-                  headerStyle: const DateRangePickerHeaderStyle(
+                monthViewSettings: const DateRangePickerMonthViewSettings(
+                  viewHeaderStyle: DateRangePickerViewHeaderStyle(
                     textStyle: TextStyle(
-                      color: Colors.deepPurple,
-                      fontSize: 24,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  monthViewSettings: const DateRangePickerMonthViewSettings(
-                    viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                      textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  selectionMode: DateRangePickerSelectionMode.single,
-                  showNavigationArrow: true,
-                  showActionButtons: true,
-                  selectionRadius: 20,
-                  selectionTextStyle: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  onCancel: () => Navigator.pop(context),
-                  onSubmit: (value) {
-                    if (value != null) {
-                      final theDate = value as DateTime;
-                      _bloc?.add(DateTimeSetDateEvent(dateTime: theDate));
-                    }
-                    Navigator.pop(context);
-                  },
                 ),
+                selectionMode: DateRangePickerSelectionMode.single,
+                showNavigationArrow: true,
+                showActionButtons: true,
+                selectionRadius: 20,
+                selectionTextStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                onCancel: () => Navigator.pop(context),
+                onSubmit: (value) {
+                  if (value != null) {
+                    final theDate = value as DateTime;
+                    _bloc.add(DateTimeSetDateEvent(dateTime: theDate));
+                  }
+                  Navigator.pop(context);
+                },
               );
             },
           );
@@ -188,7 +183,7 @@ class _DateTimeScreenState extends State<DateTimeScreen> {
             },
           );
           if (theTime != null) {
-            _bloc?.add(DateTimeSetTimeEvent(timeOfDay: theTime));
+            _bloc.add(DateTimeSetTimeEvent(timeOfDay: theTime));
           }
         },
       ),

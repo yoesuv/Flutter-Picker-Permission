@@ -15,6 +15,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 const downloadPort = "downloader_send_port";
 
+@pragma('vm:entry-point')
 class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
   final ReceivePort _port = ReceivePort();
 
@@ -35,10 +36,12 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
         try {
           final status = data[1] as int;
           final progress = data[2] as int;
-          add(DownloadFileUpdateEvent(
-            downloadTaskStatus: DownloadTaskStatus.values.elementAt(status),
-            progress: progress,
-          ));
+          add(
+            DownloadFileUpdateEvent(
+              downloadTaskStatus: DownloadTaskStatus.values.elementAt(status),
+              progress: progress,
+            ),
+          );
         } catch (e) {
           debugPrint("DownloadFileBloc # ERROR $e");
         }
@@ -52,11 +55,21 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
     Emitter<DownloadFileState> emit,
   ) async {
     final androidInfo = await DeviceInfoPlugin().androidInfo;
-    final sdkInt = androidInfo.version.sdkInt;
-    if (sdkInt >= 33) {
-      await _checkAndroid(permission: Permission.notification);
+    final config = _androidDownloadConfig(androidInfo.version.sdkInt);
+    await _checkAndroid(
+      permission: config.permission,
+      saveInPublicStorage: config.saveInPublicStorage,
+      emit: emit,
+    );
+  }
+
+  ({Permission permission, bool saveInPublicStorage}) _androidDownloadConfig(
+    int sdkInt,
+  ) {
+    if (sdkInt >= 30) {
+      return (permission: Permission.notification, saveInPublicStorage: true);
     } else {
-      await _checkAndroid(permission: Permission.storage);
+      return (permission: Permission.storage, saveInPublicStorage: false);
     }
   }
 
@@ -65,25 +78,34 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
     Emitter<DownloadFileState> emit,
   ) async {
     final documents = await getApplicationDocumentsDirectory();
-    final pathAndName = "${documents.path}${Platform.pathSeparator}document_downloaded_with_dio.pdf";
+    final pathAndName =
+        "${documents.path}${Platform.pathSeparator}document_downloaded_with_dio.pdf";
     debugPrint("DownloadFileBloc # ios path $pathAndName");
-    Dio().download(linkDownloadFile, pathAndName, onReceiveProgress: (count, total) {
-      debugPrint("DownloadFileBloc # count $count/total $total");
-      if (count == total) {
-        debugPrint("DownloadFileBloc # DOWNLOAD FINISH");
-      }
-    });
+    Dio().download(
+      linkDownloadFile,
+      pathAndName,
+      onReceiveProgress: (count, total) {
+        debugPrint("DownloadFileBloc # count $count/total $total");
+        if (count == total) {
+          debugPrint("DownloadFileBloc # DOWNLOAD FINISH");
+        }
+      },
+    );
   }
 
   void _onUpdateDownload(
     DownloadFileUpdateEvent event,
     Emitter<DownloadFileState> emit,
   ) {
-    debugPrint("DownloadFileBloc # ${event.downloadTaskStatus}/${event.progress}");
-    emit(state.copyWith(
-      progress: event.progress,
-      downloadTaskStatus: event.downloadTaskStatus,
-    ));
+    debugPrint(
+      "DownloadFileBloc # ${event.downloadTaskStatus}/${event.progress}",
+    );
+    emit(
+      state.copyWith(
+        progress: event.progress,
+        downloadTaskStatus: event.downloadTaskStatus,
+      ),
+    );
   }
 
   @pragma('vm:entry-point')
@@ -94,23 +116,31 @@ class DownloadFileBloc extends Bloc<DownloadFileEvent, DownloadFileState> {
 
   Future<void> _checkAndroid({
     required Permission permission,
+    required bool saveInPublicStorage,
+    required Emitter<DownloadFileState> emit,
   }) async {
-    Directory? directory = Directory("/storage/emulated/0/Download");
     final result = await permission.request();
     if (result == PermissionStatus.granted) {
-      if (!await directory.exists()) {
-        directory = await getExternalStorageDirectory();
-      }
+      final directory = saveInPublicStorage
+          ? Directory("/storage/emulated/0/Download")
+          : await getExternalStorageDirectory();
       final path = directory?.path ?? "";
-      await _downloadFile(path: path);
+      await _downloadFile(path: path, saveInPublicStorage: saveInPublicStorage);
+    } else {
+      emit(state.copyWith(permissionStatus: null));
+      emit(state.copyWith(permissionStatus: result));
     }
   }
 
-  Future<void> _downloadFile({required String path}) async {
+  Future<void> _downloadFile({
+    required String path,
+    required bool saveInPublicStorage,
+  }) async {
     await FlutterDownloader.enqueue(
       url: linkDownloadFile,
       savedDir: path,
-      saveInPublicStorage: true,
+      fileName: 'Sample Document pdf.pdf',
+      saveInPublicStorage: saveInPublicStorage,
     );
   }
 }

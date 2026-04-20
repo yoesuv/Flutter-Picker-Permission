@@ -8,27 +8,18 @@ class TakeCameraState extends Equatable {
   final File? file;
   final PermissionStatus? permissionStatus;
 
-  const TakeCameraState({
-    this.path = '',
-    this.file,
-    this.permissionStatus,
-  });
+  const TakeCameraState({this.path = '', this.file, this.permissionStatus});
 
   TakeCameraState copyWith({
     String? path,
     File? file,
     PermissionStatus? permissionStatus,
-  }) =>
-      TakeCameraState(
-        path: path ?? this.path,
-        file: file ?? this.file,
-        permissionStatus: permissionStatus,
-      );
+  }) => TakeCameraState(
+    path: path ?? this.path,
+    file: file ?? this.file,
+    permissionStatus: permissionStatus,
+  );
 
   @override
-  List<Object?> get props => [
-        path,
-        file,
-        permissionStatus,
-      ];
+  List<Object?> get props => [path, file, permissionStatus];
 }

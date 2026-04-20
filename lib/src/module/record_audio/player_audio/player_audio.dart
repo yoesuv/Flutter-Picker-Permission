@@ -6,10 +6,7 @@ import 'package:flutter_picker/src/module/record_audio/player_audio/player_audio
 import 'package:just_audio/just_audio.dart';
 
 class PlayerAudio extends StatefulWidget {
-  const PlayerAudio({
-    super.key,
-    this.path,
-  });
+  const PlayerAudio({super.key, this.path});
 
   final String? path;
 
@@ -39,11 +36,7 @@ class _PlayerAudioState extends State<PlayerAudio> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
-        _textDuration(),
-        const SizedBox(height: 8),
-        _playerControl(),
-      ],
+      children: [_textDuration(), const SizedBox(height: 8), _playerControl()],
     );
   }
 
@@ -60,10 +53,7 @@ class _PlayerAudioState extends State<PlayerAudio> {
       builder: (context, state) {
         return Text(
           'Play Record ${state.strDuration}',
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
         );
       },
     );
@@ -72,8 +62,7 @@ class _PlayerAudioState extends State<PlayerAudio> {
   Widget _playerControl() {
     return BlocBuilder<PlayerAudioBloc, PlayerAudioState>(
       bloc: _bloc,
-      buildWhen: (prev, current) =>
-          prev.playerState != current.playerState,
+      buildWhen: (prev, current) => prev.playerState != current.playerState,
       builder: (context, state) {
         return InkWell(
           onTap: () async {

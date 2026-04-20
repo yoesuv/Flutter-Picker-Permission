@@ -5,23 +5,14 @@ class TakeFileState extends Equatable {
   final String? path;
   final PermissionStatus? permissionStatus;
 
-  const TakeFileState({
-    this.path = '',
-    this.permissionStatus,
-  });
+  const TakeFileState({this.path = '', this.permissionStatus});
 
-  TakeFileState copyWith({
-    String? path,
-    PermissionStatus? permissionStatus,
-  }) =>
+  TakeFileState copyWith({String? path, PermissionStatus? permissionStatus}) =>
       TakeFileState(
         path: path ?? this.path,
         permissionStatus: permissionStatus ?? this.permissionStatus,
       );
 
   @override
-  List<Object?> get props => [
-        path,
-        permissionStatus,
-      ];
+  List<Object?> get props => [path, permissionStatus];
 }

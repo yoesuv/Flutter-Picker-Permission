@@ -10,31 +10,20 @@ class DateTimeBloc extends Bloc<DateTimeEvent, DateTimeState> {
     on<DateTimeSetTimeEvent>(_onSetTime);
   }
 
-  void _onInit(
-    DateTimeInitEvent event,
-    Emitter<DateTimeState> emit,
-  ) {
-    emit(state.copyWith(
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ));
+  void _onInit(DateTimeInitEvent event, Emitter<DateTimeState> emit) {
+    emit(
+      state.copyWith(
+        selectedDate: DateTime.now(),
+        selectedTime: TimeOfDay.now(),
+      ),
+    );
   }
 
-  void _onSetDate(
-    DateTimeSetDateEvent event,
-    Emitter<DateTimeState> emit,
-  ) {
-    emit(state.copyWith(
-      selectedDate: event.dateTime,
-    ));
+  void _onSetDate(DateTimeSetDateEvent event, Emitter<DateTimeState> emit) {
+    emit(state.copyWith(selectedDate: event.dateTime));
   }
 
-  void _onSetTime(
-    DateTimeSetTimeEvent event,
-    Emitter<DateTimeState> emit,
-  ) {
-    emit(state.copyWith(
-      selectedTime: event.timeOfDay,
-    ));
+  void _onSetTime(DateTimeSetTimeEvent event, Emitter<DateTimeState> emit) {
+    emit(state.copyWith(selectedTime: event.timeOfDay));
   }
 }

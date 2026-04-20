@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_picker/src/module/gallery/event/take_gallery_event.dart';
-import 'package:flutter_picker/src/module/gallery/state/take_gallery_state.dart';
+import 'package:flutter_picker/src/module/gallery/take_gallery_event.dart';
+import 'package:flutter_picker/src/module/gallery/take_gallery_state.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -68,10 +68,9 @@ class TakeGalleryBloc extends Bloc<TakeGalleryEvent, TakeGalleryState> {
       source: ImageSource.gallery,
     );
     if (pickedImage != null) {
-      emit(state.copyWith(
-        file: File(pickedImage.path),
-        path: pickedImage.path,
-      ));
+      emit(
+        state.copyWith(file: File(pickedImage.path), path: pickedImage.path),
+      );
     }
   }
 }

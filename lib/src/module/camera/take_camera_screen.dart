@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_picker/src/module/camera/bloc/take_camera_bloc.dart';
-import 'package:flutter_picker/src/module/camera/event/take_camera_event.dart';
-import 'package:flutter_picker/src/module/camera/state/take_camera_state.dart';
+import 'package:flutter_picker/src/module/camera/take_camera_bloc.dart';
+import 'package:flutter_picker/src/module/camera/take_camera_event.dart';
+import 'package:flutter_picker/src/module/camera/take_camera_state.dart';
 import 'package:flutter_picker/src/utils/app_util.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class TakeCameraScreen extends StatefulWidget {
   static const routeName = 'take_camera';
-  const TakeCameraScreen({Key? key}) : super(key: key);
+  const TakeCameraScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -29,9 +29,7 @@ class _TakeCameraScreenState extends State<TakeCameraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Take Camera'),
-      ),
+      appBar: AppBar(title: const Text('Take Camera')),
       body: BlocListener<TakeCameraBloc, TakeCameraState>(
         bloc: _bloc,
         listenWhen: (previous, current) =>
@@ -75,10 +73,7 @@ class _TakeCameraScreenState extends State<TakeCameraScreen> {
           width: MediaQuery.of(context).size.width,
           height: 200,
           child: state.file != null
-              ? Image.file(
-                  state.file!,
-                  fit: BoxFit.cover,
-                )
+              ? Image.file(state.file!, fit: BoxFit.cover)
               : Container(),
         );
       },

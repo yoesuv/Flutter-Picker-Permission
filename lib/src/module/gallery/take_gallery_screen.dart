@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_picker/src/module/gallery/bloc/take_gallery_bloc.dart';
-import 'package:flutter_picker/src/module/gallery/event/take_gallery_event.dart';
-import 'package:flutter_picker/src/module/gallery/state/take_gallery_state.dart';
+import 'package:flutter_picker/src/module/gallery/take_gallery_bloc.dart';
+import 'package:flutter_picker/src/module/gallery/take_gallery_event.dart';
+import 'package:flutter_picker/src/module/gallery/take_gallery_state.dart';
 import 'package:flutter_picker/src/utils/app_util.dart';
 import 'package:flutter_picker/src/widgets/dialog_open_app_settings.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
@@ -12,7 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 class TakeGalleryScreen extends StatefulWidget {
   static const routeName = 'take_gallery';
-  const TakeGalleryScreen({Key? key}) : super(key: key);
+  const TakeGalleryScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -32,9 +32,7 @@ class _TakeGalleryScreenState extends State<TakeGalleryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Take Gallery'),
-      ),
+      appBar: AppBar(title: const Text('Take Gallery')),
       body: BlocListener<TakeGalleryBloc, TakeGalleryState>(
         bloc: _bloc,
         listenWhen: (previous, current) =>
@@ -84,10 +82,7 @@ class _TakeGalleryScreenState extends State<TakeGalleryScreen> {
           width: MediaQuery.of(context).size.width,
           height: 200,
           child: state.file != null
-              ? Image.file(
-                  state.file!,
-                  fit: BoxFit.cover,
-                )
+              ? Image.file(state.file!, fit: BoxFit.cover)
               : Container(),
         );
       },

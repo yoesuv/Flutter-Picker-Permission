@@ -7,13 +7,7 @@ void showErrorSnackBar(BuildContext context, String text) {
       children: [
         const Icon(Icons.info_outlined, color: Colors.white),
         const SizedBox(width: 16),
-        Text(
-          text,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.white,
-          ),
-        ),
+        Text(text, style: const TextStyle(fontSize: 14, color: Colors.white)),
       ],
     ),
   );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_picker/src/module/location/bloc/location_bloc.dart';
-import 'package:flutter_picker/src/module/location/event/location_event.dart';
-import 'package:flutter_picker/src/module/location/state/location_state.dart';
+import 'package:flutter_picker/src/module/location/location_bloc.dart';
+import 'package:flutter_picker/src/module/location/location_event.dart';
+import 'package:flutter_picker/src/module/location/location_state.dart';
 import 'package:flutter_picker/src/utils/app_util.dart';
 import 'package:flutter_picker/src/widgets/dialog_open_app_settings.dart';
 import 'package:flutter_picker/src/widgets/my_button.dart';
@@ -31,15 +31,19 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Location'),
-      ),
+      appBar: AppBar(title: const Text('Location')),
       body: BlocListener<LocationBloc, LocationState>(
         bloc: _bloc,
         listenWhen: (previous, current) =>
             previous.permissionStatus != current.permissionStatus ||
-            previous.locationService != current.locationService,
+            previous.locationService != current.locationService ||
+            previous.errorMessage != current.errorMessage,
         listener: (context, state) {
+          if (state.errorMessage != null) {
+            showErrorSnackBar(context, state.errorMessage!);
+            return;
+          }
+
           if (state.permissionStatus != null) {
             if (state.permissionStatus != PermissionStatus.granted) {
               showErrorSnackBar(
@@ -55,10 +59,7 @@ class _LocationScreenState extends State<LocationScreen> {
             );
           }
           if (state.locationService == false) {
-            showErrorSnackBar(
-              context,
-              'Location Service is Disabled',
-            );
+            showErrorSnackBar(context, 'Location Service is Disabled');
           }
         },
         child: SafeArea(
@@ -84,11 +85,8 @@ class _LocationScreenState extends State<LocationScreen> {
       buildWhen: (previous, current) => previous.strLatLng != current.strLatLng,
       builder: (context, state) {
         return Text(
-          '${state.strLatLng}',
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          state.strLatLng ?? '',
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         );
       },
     );
@@ -96,10 +94,20 @@ class _LocationScreenState extends State<LocationScreen> {
 
   Widget _buildButton() {
     return Center(
-      child: MyButton(
-        title: 'GET LOCATION',
-        onPressed: () {
-          _bloc.add(GetLocationEvent());
+      child: BlocBuilder<LocationBloc, LocationState>(
+        bloc: _bloc,
+        buildWhen: (previous, current) =>
+            previous.isLoading != current.isLoading,
+        builder: (context, state) {
+          return MyButton(
+            title: 'GET LOCATION',
+            isLoading: state.isLoading,
+            onPressed: () {
+              if (!state.isLoading) {
+                _bloc.add(GetLocationEvent());
+              }
+            },
+          );
         },
       ),
     );
